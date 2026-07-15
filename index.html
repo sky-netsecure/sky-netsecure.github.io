@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ตารางเรียน &amp; ตารางเวร | 4PMD รพ.ขอนแก่น 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1b1e;
+    --paper:#f5f2ea;
+    --panel:#ffffff;
+    --line:#dcd6c6;
+    --teal:#0e4b4f;
+    --teal-deep:#0a3538;
+    --amber:#c8781f;
+    --muted:#6b6458;
+    --today:#c8781f;
+
+    --pos-ems:#e34848;
+    --pos-ems-bg:#fde2e2;
+    --pos-resus:#3f6fd1;
+    --pos-resus-bg:#dfe7fb;
+    --pos-treatment:#b8971f;
+    --pos-treatment-bg:#faf1cd;
+    --pos-screen:#c8781f;
+    --pos-screen-bg:#fbe6cf;
+    --pos-ccc:#3f8b52;
+    --pos-ccc-bg:#e0f0e2;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Sarabun',-apple-system,'Noto Sans Thai',sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .app{max-width:1180px;margin:0 auto;padding:28px 20px 80px;}
+
+  /* header */
+  .masthead{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:24px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:18px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+  }
+  .masthead .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin:0 0 6px;
+  }
+  .masthead h1{
+    font-size:clamp(24px,4vw,34px);
+    margin:0;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .masthead .sub{
+    color:var(--muted);
+    font-size:13.5px;
+    margin-top:6px;
+  }
+  .masthead .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    background:var(--ink);
+    color:var(--paper);
+    padding:8px 14px;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+
+  /* tabs */
+  .tabbar{
+    display:flex;
+    gap:6px;
+    margin-bottom:22px;
+  }
+  .tabbar button{
+    font-family:'Sarabun',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    padding:11px 22px;
+    border:2px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    cursor:pointer;
+    border-radius:3px;
+    transition:background .15s,color .15s;
+  }
+  .tabbar button.active{
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .tabbar button:hover:not(.active){
+    background:rgba(15,27,30,.08);
+  }
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ===== schedule (class) view ===== */
+  .month-nav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .month-nav button{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    padding:7px 14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:20px;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .month-nav button.active{
+    background:var(--teal);
+    color:#fff;
+    border-color:var(--teal);
+  }
+
+  .week-block{margin-bottom:26px;}
+  .week-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    border-bottom:1px solid var(--line);
+    padding-bottom:6px;
+    margin-bottom:10px;
+  }
+
+  .day-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:4px solid var(--teal);
+    border-radius:4px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .day-card.is-holiday{border-left-color:#b0463f;}
+  .day-card.is-exam{border-left-color:var(--amber);}
+  .day-card.is-empty{opacity:.45;}
+  .day-card.is-today{
+    border-left-color:var(--today);
+    box-shadow:0 0 0 2px var(--today) inset;
+    background:#fffaf2;
+  }
+
+  .day-head{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .day-date{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:600;
+    font-size:15px;
+  }
+  .day-weekday{
+    font-size:13px;
+    color:var(--muted);
+  }
+  .today-pill{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    background:var(--today);
+    color:#fff;
+    padding:2px 8px;
+    border-radius:10px;
+    letter-spacing:.05em;
+  }
+
+  .session-row{
+    display:flex;
+    gap:14px;
+    padding:6px 0;
+    border-top:1px dashed var(--line);
+    font-size:14px;
+  }
+  .session-row:first-of-type{border-top:none;}
+  .session-time{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--teal);
+    min-width:96px;
+    flex-shrink:0;
+    padding-top:2px;
+  }
+  .session-body .topic{font-weight:500;}
+  .session-body .instr{color:var(--muted);font-size:13px;margin-top:1px;}
+  .allday-note{font-size:14px;color:var(--ink);font-weight:500;}
+  .empty-note{font-size:13px;color:var(--muted);font-style:italic;}
+
+  /* ===== duty view ===== */
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:18px;
+    padding:12px 14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:6px;
+    font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .swatch{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
+
+  .duty-scroll{
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--panel);
+  }
+  table.duty{
+    border-collapse:collapse;
+    font-size:12.5px;
+    white-space:nowrap;
+  }
+  table.duty th, table.duty td{
+    border:1px solid var(--line);
+    padding:5px 7px;
+    text-align:center;
+  }
+  table.duty thead th{
+    background:var(--teal-deep);
+    color:#fff;
+    font-weight:500;
+    position:sticky;
+    top:0;
+    z-index:2;
+  }
+  table.duty thead tr.weekday-row th{
+    background:var(--teal);
+    font-size:10.5px;
+    font-weight:400;
+  }
+  table.duty td.name-cell, table.duty th.name-cell{
+    position:sticky;
+    left:0;
+    background:var(--panel);
+    text-align:left;
+    font-weight:500;
+    z-index:1;
+    box-shadow:2px 0 0 var(--line);
+    min-width:190px;
+  }
+  table.duty thead th.name-cell{
+    background:var(--teal-deep);
+    color:#fff;
+    z-index:3;
+  }
+  table.duty td.idx-cell, table.duty th.idx-cell{
+    position:sticky;
+    left:0;
+    background:var(--panel);
+    z-index:1;
+    color:var(--muted);
+  }
+  table.duty thead th.idx-cell{background:var(--teal-deep);color:#fff;z-index:3;}
+  table.duty td.today-col, table.duty th.today-col{
+    box-shadow:inset 0 0 0 2px var(--today);
+  }
+  tr.me-row td{background:#fff7ea;}
+  tr.me-row td.name-cell{background:#fdeccb;font-weight:700;}
+
+  td.shift-cell{font-weight:600;}
+  td.shift-EMS{background:var(--pos-ems-bg);color:var(--pos-ems);}
+  td.shift-RESUS{background:var(--pos-resus-bg);color:var(--pos-resus);}
+  td.shift-Treatment{background:var(--pos-treatment-bg);color:var(--pos-treatment);}
+  td.shift-screen{background:var(--pos-screen-bg);color:var(--pos-screen);}
+  td.shift-CCC{background:var(--pos-ccc-bg);color:var(--pos-ccc);}
+  td.shift-note{
+    font-size:10.5px;
+    color:var(--muted);
+    font-weight:400;
+    white-space:normal;
+    max-width:90px;
+  }
+  td.summary-cell{
+    background:#f1efe6;
+    font-weight:600;
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  .duty-controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .search-box{
+    font-family:'Sarabun',sans-serif;
+    font-size:13.5px;
+    padding:8px 12px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    width:220px;
+    background:#fff;
+  }
+  .search-box:focus{outline:2px solid var(--teal);outline-offset:1px;}
+
+  footer.note{
+    margin-top:30px;
+    font-size:12px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    padding-top:12px;
+  }
+
+  @media (max-width:640px){
+    .app{padding:18px 12px 60px;}
+    .tabbar button{padding:9px 14px;font-size:13.5px;}
+    .session-row{flex-direction:column;gap:2px;}
+    .session-time{min-width:0;}
+  }
+  .duty-summary{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .summary-chip{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:10px 16px;
+    min-width:140px;
+  }
+  .summary-chip.sc-grand{
+    background:var(--teal-deep);
+    border-color:var(--teal-deep);
+  }
+  .summary-chip.sc-grand .sc-month, .summary-chip.sc-grand .sc-nums span{color:#fff;}
+  .sc-month{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .sc-nums{
+    display:flex;
+    gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+  }
+  .sc-nums .sc-total{font-weight:700;color:var(--teal);}
+  .summary-chip.sc-grand .sc-total{color:#fff;}
+
+  .duty-card .duty-detail{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+  }
+  .shift-name{font-weight:500;}
+  .pos-badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:600;
+    padding:3px 10px;
+    border-radius:12px;
+  }
+  .pos-badge.shift-EMS{background:var(--pos-ems-bg);color:var(--pos-ems);}
+  .pos-badge.shift-RESUS{background:var(--pos-resus-bg);color:var(--pos-resus);}
+  .pos-badge.shift-Treatment{background:var(--pos-treatment-bg);color:var(--pos-treatment);}
+  .pos-badge.shift-screen{background:var(--pos-screen-bg);color:var(--pos-screen);}
+  .pos-badge.shift-CCC{background:var(--pos-ccc-bg);color:var(--pos-ccc);}
+    .to-top-btn{
+    position:fixed;
+    right:18px;
+    bottom:24px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:var(--teal-deep);
+    color:#fff;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 14px rgba(15,27,30,.35);
+    cursor:pointer;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(10px);
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:50;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .to-top-btn.show{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
+  .to-top-btn svg{width:22px;height:22px;}
+  .to-top-btn:active{background:var(--teal);}
+
+  @supports (padding: max(0px)){
+    .to-top-btn{
+      bottom:max(24px, env(safe-area-inset-bottom) + 14px);
+      right:max(18px, env(safe-area-inset-right) + 12px);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">4PMD &middot; รพ.ขอนแก่น &middot; ปีการศึกษา 2569</p>
+      <h1>ตารางเรียน &amp; ตารางเวร</h1>
+      <p class="sub">นิสิตแพทย์ฉุกเฉิน มหาวิทยาลัยมหาสารคาม</p>
+    </div>
+    <div class="badge" id="todayBadge">วันนี้ &mdash; &nbsp;</div>
+  </div>
+
+  <div class="tabbar">
+    <button id="tabSchedBtn" class="active">ตารางเรียน</button>
+    <button id="tabDutyBtn">ตารางเวร</button>
+  </div>
+
+  <!-- ================= SCHEDULE VIEW ================= -->
+  <div id="viewSched" class="view active">
+    <div class="month-nav" id="schedMonthNav"></div>
+    <div id="schedContent"></div>
+  </div>
+
+  <!-- ================= DUTY VIEW (ธนพงษ์ only) ================= -->
+  <div id="viewDuty" class="view">
+    <div class="legend" id="dutyLegend"></div>
+    <div class="duty-summary" id="dutySummary"></div>
+    <div id="dutyList"></div>
+  </div>
+
+
+  <footer class="note">
+    จัดทำจากไฟล์ตารางเรียนและตารางเวรต้นฉบับ &middot; สีในตารางเวรบ่งบอกตำแหน่งที่ขึ้นปฏิบัติงาน (EMS / RESUS / Treatment / screen / CCC)
+  </footer>
+</div>
+
+<button id="toTopBtn" class="to-top-btn" aria-label="กลับขึ้นด้านบน" title="กลับขึ้นด้านบน">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5"/>
+    <path d="M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+window.__SCHED__ = [{"month": "กรกฎาคม", "week": "wk1", "date": 1, "day": "พุธ", "sessions": [{"time": null, "topic": "ปฐมนิเทศ ห้องประชุมสุจินต์ ", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk1", "date": 2, "day": "พฤหัสบดี", "sessions": []}, {"month": "กรกฎาคม", "week": "wk1", "date": 3, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: EMS Operation", "instr": "นพ.วีรศักดิ์ (ห้องประชุม EOC)"}, {"time": "13:00-16:00", "topic": "M: Dispatch Operation", "instr": "นพ.วีรศักดิ์ (ห้องประชุม EOC)"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 6, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "M: Pre-Hospital Airway management (Lecture)", "instr": "นพ.ไชยโย (ห้องสุจินต์)"}, {"time": "13:00-17:00", "topic": "Pre-Hospital Airway management (Lab)", "instr": "นพ.ไชยโย/ไปรมาศ/นิรัติศัย/R2 พิชญานิน"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 7, "day": "อังคาร", "sessions": [{"time": "8:00-12:00", "topic": "D: Introduction to disaster/Disaster prevention and  preparedness (Lecture) ", "instr": "นพ.รัฐระวี (omega one)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ แก่ผู้บาดเจ็บจากอุบัติเหตุการกระแทกการฉีกขาด (lecture)", "instr": "นพ.วีรศักดิ์ omega one"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 8, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: ความหมายของนิติเวชศาสตร์ (Lec)   F: บทบาทหน้าที่ของ นฉพ.ในงานนิติเวชศาสตร์ (Lec) ", "instr": "นพ.ภูเบศ   (omega two)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บจากวัตถุหนักหักทับร่างกาย (Lecture)", "instr": "นพ.กิตติชัย  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 9, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Mass casualty incident 1-2 CSCA  (Lecture)", "instr": "นพ.วีรศักดิ์ omega one"}, {"time": "15:00-17:00", "topic": "D: Mass casualty incident Treatment Transport (Lecture)", "instr": "นพ.รัฐระวี (omega one)"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 10, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ แก่ผู้มีภาวะฉุกเฉินทางโรคติดต่อ,ติดเชื้ออุบัติใหม่ (Lecture)", "instr": "นพ.วีรศักดิ์  (omega two)"}, {"time": "13:00-16:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ ผู้มีภาวะฉุกเฉินจากการได้รับพิษจากสิ่งแวดล้อม (Lecture )", "instr": "นพ รัฐพล  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 13, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Adult (Lecture) ", "instr": "พญ.พิมพ์ชนก (ประมุข)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Adult (Lab) ", "instr": "พญ.พิมพ์ชนก/พงษ์พิสุทธิ์/อัญชนา/R2 ธนวรรณ(ประมุข)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 14, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Risk management", "instr": "นพ.ภูเบศ  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 15, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: หลักการชันสูตรพลิกศพ / การดูแลพยานหลักฐาน ณ จุดเกิดเหตุ (Lecture)", "instr": "นพ.ภูเบศ  (omega two)"}, {"time": "13:00-16:00", "topic": "T: ภาวะฉุกเฉินทางการแพทย์ จากการบาดเจ็บ กลไกการบาดเจ็บ Topic present.", "instr": "พญ ณญาวดี  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 16, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-14:00", "topic": "D: triage (Lecture)", "instr": "Paramedic"}, {"time": "14:00-17:00", "topic": "D: triage (Workshop)", "instr": "มานพ/ราเมศร์/เบญจมาศ/สุดารัตน์"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 17, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: review AMLS (Lecture)", "instr": "นพ.ไชยโย  (omega two)"}, {"time": "13:00-16:00", "topic": "M: AMLS work shop", "instr": "นพ.ไชยโย/ สุดารัตน์/นนทิชานันท์/R3 พิมพ์ดาว"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 20, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "Advance Life Support", "instr": null}, {"time": "13:00-17:00", "topic": "Advance Life Support", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 21, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บที่ติดอยู่ในซากปรักหักพังหลุมลึกตึกถล่ม (Lecture)", "instr": "นพ.วีรศักดิ์  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 22, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การดูแลบาดแผล (Lecture)", "instr": "นพ.ภูเบศ  (omega two)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บเลือดออกและช็อค topic present.", "instr": " พญ.ณญาวดี  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 23, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Tactical EMS (Lecture)", "instr": "นพ.วีรศักดิ์  (omega two)"}, {"time": "15:00-17:00", "topic": "D: Fast Tract in EMS", "instr": "นพ.วีรศักดิ์"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 24, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: Safety Transfer (Lecture)", "instr": "พว.สมพร หงษ์เวียง  (omega two)"}, {"time": "13:00-16:00", "topic": "M: Topic presentation \n MI ", "instr": "นพ.ภูเบศ  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 27, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: PHTLS 1 (Lecture)  ", "instr": "นพ.กิตติชัย   (ห้องสุจินต์)"}, {"time": "13:00-17:00", "topic": "ALS: Workshop PHTLS 1", "instr": "นพ.กิตติชัย/พงษ์พิสุทธิ์//R2 พอเพียง (ห้องสุจินต์)"}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 28, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันเฉลิมพระชนมพรรษา ร.10", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 29, "day": "พุธ", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ (วันอาสาฬหบูชา)", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 30, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ (วันเข้าพรรษา)", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 31, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ \nแก่ผู้มีภาวะฉุกเฉิน ผู้หมดสติ (Lecture)", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "13:00-16:00", "topic": "M: Topic presentation \n Stroke ", "instr": "พญ.รัตติยา (omega two)"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 3, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูง โดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Neonatal (Lecture)", "instr": "นพ.ไชยโย (omega two)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูง โดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Neonatal (Lab)", "instr": "นพ.ไชยโย/ไปรมาศ/นนทิชานันท์/R2 ธัญกมล"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 4, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Topic presentation: Head and spinal trauma", "instr": "นพ.ปุณยวัจน์ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 5, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การตัดสินการตาย (Lecture)", "instr": "นพ.ภูเบศ (omega two)"}, {"time": "13:00-16:00", "topic": "T: case discusion1", "instr": "นพ.ไชยโย (omega two)"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 6, "day": "พฤหัสบดี", "sessions": [{"time": "8:00-12:00", "topic": "D: MCI Scene design workshop", "instr": "นพ.วีรศักดิ์/รัฐระวี/นฉพ.มานพ/นฉพ.ราเมศ/นิรัติศัย/R2 จิรเมธ"}, {"time": "13:00-17:00", "topic": "D: MCI Scene design workshop", "instr": "นพ.วีรศักดิ์/รัฐระวี/นฉพ.มานพ/นฉพ.ราเมศ/นิรัติศัย/R2 จิรเมธ"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 7, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ\nผู้มีภาวะฉุกเฉินทางตา  (Lecture)", "instr": "นพ.ไชยโย (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion1", "instr": "นพ.กิตติชัย (omega two)"}]}, {"month": "สิงหาคม", "week": "wk7", "date": 10, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: การดูแลและบำรุงรักษาอุปกรณ์ช่วยฟื้นคืนชีพขั้นสูงฝึกปฏิบัติการช่วยฟื้นคืน (Lecture)", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: การดูแลและบำรุงรักษาอุปกรณ์ช่วยฟื้นคืนชีพขั้นสูงฝึกปฏิบัติการช่วยฟื้นคืน (Lab)", "instr": "นพ.วีรศักดิ์/.ชาติชาย../อัญชนา"}]}, {"month": "สิงหาคม", "week": "wk7", "date": 11, "day": "อังคาร", "sessions": []}, {"month": "สิงหาคม", "week": "wk7", "date": 12, "day": "พุธ", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันเฉลิมพระชนมพรรษา ร.10", "instr": null}]}, {"month": "สิงหาคม", "week": "wk7", "date": 13, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: ICS", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: Command control in MIMMs protocol", "instr": "นพ.ภูเบศ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk7", "date": 14, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มี\nภาวะฉุกเฉินทาง หู – คอ – จมูก (Lecture)", "instr": "นพ.รัฐพล (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion2", "instr": "พญ.รัตติยา (omega two)"}]}, {"month": "สิงหาคม", "week": "wk8", "date": 17, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Pediatric (Lecture) ", "instr": "พญ.ณญาวดี (omega two)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Pediatric (Lab) ", "instr": "พญ.ณญาวดี/ไปรมาศ/ชณัฎฎา/R3 พิมพ์ดาว"}]}, {"month": "สิงหาคม", "week": "wk8", "date": 18, "day": "อังคาร", "sessions": []}, {"month": "สิงหาคม", "week": "wk8", "date": 19, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การวิเคราะห์สาเหตุการตาย (Lecture)", "instr": "นพ.ภูเบศ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk8", "date": 20, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "Midterm MCQ ห้องสุจินต์", "instr": null}]}, {"month": "สิงหาคม", "week": "wk8", "date": 21, "day": "ศุกร์", "sessions": [{"time": null, "topic": "Midterm MCQ ห้องประมุข", "instr": null}]}, {"month": "สิงหาคม", "week": "wk9", "date": 24, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: ใช้อุปกรณ์เปิดทางเดินหายใจขั้นสูง เครื่องช่วยหายใจแบบอัตโนมัติและแบบใช้มือ Pediatric (Lecture)", "instr": "พญ.ณญาวดี (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: ใช้อุปกรณ์เปิดทางเดินหายใจขั้นสูง เครื่องช่วยหายใจแบบอัตโนมัติและแบบใช้มือ Pediatric (Lab)", "instr": "พญ.ณญาวดี/ไปรมาศ/.นฉพ.อัญชนา/R"}]}, {"month": "สิงหาคม", "week": "wk9", "date": 25, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Topic presentation:  thoracic injury", "instr": "พญ.พิมพ์ชนก (omega two)"}]}, {"month": "สิงหาคม", "week": "wk9", "date": 26, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การส่งศพและอุปกรณ์ที่ใช้ในงานนิติเวชศาสตร์ (Lecture)", "instr": "นพ.เศรษฐพงษ์ (omega two)"}, {"time": "13:00-16:00", "topic": "T: case discusion2", "instr": "นพ.ปุณยวัจน์ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk9", "date": 27, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": " D: HAZMAT  (Lecture)", "instr": "พญ.พิมพ์ชนก (omega two)"}]}, {"month": "สิงหาคม", "week": "wk9", "date": 28, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มีภาวะฉุกเฉินจากการได้รับสารพิษหรือยาเกินขนาด (Lecture)", "instr": "พญ.พิมพ์ชนก (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion3", "instr": "นพ.ไชยโย (omega two)"}]}, {"month": "สิงหาคม", "week": "wk10", "date": 31, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: การกระตุ้นหัวใจด้วยไฟฟ้าแบบคาร์ดิโอเวอร์ชั่น+การใช้เครื่องคุมจังหวะการเต้นของหัวใจ Adult (Lecture)", "instr": "พญ.พิมพ์ชนก (ประมุข)"}, {"time": "13:00-17:00", "topic": "ALS: การกระตุ้นหัวใจด้วยไฟฟ้าแบบคาร์ดิโอเวอร์ชั่น+การใช้เครื่องคุมจังหวะการเต้นของหัวใจ Adult (Lab)", "instr": "พญ.ณญาวดี/นฉพ ชาติชาย/นฉพ.นนทิชานันท์/R2 ปุณิกา  (ประมุข)"}]}, {"month": "กันยายน", "week": "wk10", "date": 1, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Topic presentation: abdominal injury", "instr": "นพ.ปุณยวัจน์"}]}, {"month": "กันยายน", "week": "wk10", "date": 2, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การเก็บวัตถุพยานเพื่อส่งตรวจ (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion3", "instr": "นพ.กิตติชัย "}]}, {"month": "กันยายน", "week": "wk10", "date": 3, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-14:00", "topic": "D: ERG  (Lecture)", "instr": "Paramedic"}, {"time": "14:00-16:00", "topic": "D: Workshop in ERG", "instr": "Paramedic /สุดารัตน์/ไปรมาศ ."}]}, {"month": "กันยายน", "week": "wk10", "date": 4, "day": "ศุกร์", "sessions": [{"time": null, "topic": "สอบซ่อม MCQ", "instr": null}]}, {"month": "กันยายน", "week": "wk11", "date": 7, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: PHTLS 2 (Lecture) ", "instr": "นพ.กิตติชัย"}, {"time": "13:00-17:00", "topic": "ALS: Workshop  PHTLS 2", "instr": "นพ.กิตติชัย/เบญจมาศ/สุดารัตน์/R3 ทิวา"}]}, {"month": "กันยายน", "week": "wk11", "date": 8, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บตกจากที่สูง topic present.", "instr": "นพ.กิตติชัย "}]}, {"month": "กันยายน", "week": "wk11", "date": 9, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: นิติเวชศาสตร์คลินิก (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion4", "instr": "พญ.ณญาวดี"}]}, {"month": "กันยายน", "week": "wk11", "date": 10, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: Mass gathering (Lecture)", "instr": "นพ.วีรศักดิ์"}]}, {"month": "กันยายน", "week": "wk11", "date": 11, "day": "ศุกร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์", "instr": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์"}, {"time": "13:00-17:00", "topic": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์", "instr": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์"}]}, {"month": "กันยายน", "week": "wk12", "date": 14, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "\"T: USG workshop\t\t\"\t\t\t", "instr": "อจ.ปิยฉัตร/นฉพ.../R1.../R2 พอเพียง"}, {"time": "13:00-16:00", "topic": "T: concept of USG (lecture)", "instr": "อจ.ปิยฉัตร"}]}, {"month": "กันยายน", "week": "wk12", "date": 15, "day": "อังคาร", "sessions": []}, {"month": "กันยายน", "week": "wk12", "date": 18, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: หลักการเขียนรายงานผลการปฏิบัติงาน และการชันสูตร (Lecture)", "instr": "นพ.ภูเบศ"}]}, {"month": "กันยายน", "week": "wk12", "date": 17, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Disaster management 1 (Lecture)", "instr": "นพ.รัฐระวี"}, {"time": "15:00-17:00", "topic": "D: Disaster management 2 (Lecture)", "instr": "นพ.รัฐระวี"}]}, {"month": "กันยายน", "week": "wk12", "date": 18, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: ภาวะฉุกเฉินจากปัญหาทางพฤติกรรมและจิตเวชการเจรจาต่อรอง (Lecture)", "instr": "นพ.ไชยโย"}]}, {"month": "กันยายน", "week": "wk13", "date": 21, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS:  ACLS (sim)  นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา", "instr": "ALS:  ACLS (sim)  นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา"}, {"time": "13:00-17:00", "topic": "ALS:  ACLS (sim)", "instr": "นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา"}]}, {"month": "กันยายน", "week": "wk13", "date": 22, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บจากไฟไหม้น้ำร้อนลวก (Lecture)", "instr": "นพ.พรเลิศ"}]}, {"month": "กันยายน", "week": "wk13", "date": 23, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การดูแลผู้ป่วยที่ถูกทารุณกรรม (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion5", "instr": "นพ.รัฐพล"}]}, {"month": "กันยายน", "week": "wk13", "date": 24, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: Disaster workshop", "instr": "นพ.วีรศักดิ์/นพ.รัฐระวี/มานพ/สุดารัตน์/R3 ธนพล"}]}, {"month": "กันยายน", "week": "wk13", "date": 25, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุภาวะฉุกเฉินจากการได้รับการทารุณกรรม (Lecture)", "instr": "นพ.ไชยโย"}, {"time": "13:00-16:00", "topic": "M :  case discusion4", "instr": "นพ.พรเลิศ"}]}, {"month": "กันยายน", "week": "wk14", "date": 28, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1สุดารัตน์2.เบญจมาศ/R2 ไอลดา", "instr": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1สุดารัตน์2.เบญจมาศ/R2 ไอลดา"}, {"time": "13:00-17:00", "topic": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1.สุดารัตน์ 2.เบญจมาศ/R2 ไอลดา", "instr": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1.สุดารัตน์ 2.เบญจมาศ/R2 ไอลดา"}]}, {"month": "กันยายน", "week": "wk14", "date": 29, "day": "อังคาร", "sessions": [{"time": "10:00-11:00", "topic": " ", "instr": null}, {"time": "13:00-16:00", "topic": "T: Trauma in special population (Lecture)", "instr": "พญ.ณญาวดี"}]}, {"month": "กันยายน", "week": "wk14", "date": 30, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: ผู้ป่วยที่ถูกล่วงละเมิดทางเพศ (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion6", "instr": "พญ.กฤษณา"}]}, {"month": "ตุลาคม", "week": "wk14", "date": 1, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: หลักการคัดแยก รักษา นำส่ง TTT ในสถานการณ์อุบัติเหตุหมู่", "instr": "นพ.รัฐพล"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: หลักการจัดการสถาณการณ์ HAZMAT", "instr": "นพ.รัฐระวี"}]}, {"month": "ตุลาคม", "week": "wk14", "date": 2, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: Topic presentation Rabies and Tetanus immunization", "instr": " นพ.กิตติชัย"}, {"time": "13:00-16:00", "topic": "M :  case discusion5", "instr": "นพ.ปุณยวัจน์"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 5, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/.นฉพ.นิรัติศัย/R3 ครุวัชร", "instr": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/.นฉพ.นิรัติศัย/R3 ครุวัชร"}, {"time": "13:00-17:00", "topic": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/นฉพ.นิรัติศัย/R3 ครุวัชร", "instr": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/นฉพ.นิรัติศัย/R3 ครุวัชร"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 6, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "Forensic", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 7, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "T: การป้องกันการบาดเจ็บและระบบการบันทึกทางการบาดเจ็บ (Lecture)", "instr": "พญ.ณญาวดี"}, {"time": "13:00-16:00", "topic": "T: Workshop Injury prevention", "instr": "พญ.ณญาวดี"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 8, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Marine EMS บาดเจ็บทางน้ำ 1 (Lecture)", "instr": "พญ.ณญาวดี"}, {"time": "15:00-17:00", "topic": "D: Aeromedical transportation (Lecture)", "instr": "นพ.ไชยโย"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 9, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: ผู้มีภาวะฉุกเฉินจากการได้รับพิษ จากอาวุธเคมีสารชีวภาพวัตถุระเบิด (Lecture) ", "instr": "        นพ.รัฐระวี"}, {"time": "13:00-16:00", "topic": "M: Topic presentation Sepsis", "instr": "นพ.รัตติยา"}]}, {"month": "ตุลาคม", "week": "wk16", "date": 12, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: Topic and Case disscussion in ACLS", "instr": " พญ.รัตติยา/ชณัฎฎา"}, {"time": "13:00-17:00", "topic": "ALS: Topic PALS and Case disscussion in PALS", "instr": "พญ.ณญาวดี/นิรัติศัย"}]}, {"month": "ตุลาคม", "week": "wk16", "date": 13, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันนวมินทรมหาราช", "instr": null}]}, {"month": "ตุลาคม", "week": "wk16", "date": 14, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "M: Topic presentation  Snake bite", "instr": "ปิยฉัตร"}, {"time": "13:00-16:00", "topic": "EMC2 (Med)", "instr": null}]}, {"month": "ตุลาคม", "week": "wk16", "date": 15, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: Disaster risk management", "instr": "นพ.รัฐระวี"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: MCI for Bomb and blast", "instr": "นพ.รัฐระวี"}]}, {"month": "ตุลาคม", "week": "wk16", "date": 16, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ผู้มีภาวะฉุกเฉินในในผู้สูงอายุ, โรคเรื้อรัง (Lecture)", "instr": " นพ.พรเลิศ"}, {"time": "13:00-16:00", "topic": "M: Topic presentation ภาวะฉุกเฉินจากรังสี", "instr": "นพ.รัฐระวี/"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 19, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: Topic and Case disscussion in PHTLS", "instr": "นพ.วีรศักดิ์/พิมลภัทร"}, {"time": "13:00-17:00", "topic": "ALS: Topic and Case disscussion in PHTLS", "instr": "นพ.ไชยโย/พิมลภัทร"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 20, "day": "อังคาร", "sessions": []}, {"month": "ตุลาคม", "week": "wk17", "date": 21, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มีภาวะฉุกเฉินระยะสุดท้าย (Lecture)", "instr": "นพ.พรเลิศ"}, {"time": "13:00-16:00", "topic": "M :  case discusion6", "instr": "พญ.กฤษณา"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 22, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "**อจ ปิยฉัตร ขอนิสิต ผช 5 คน ", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 23, "day": "ศุกร์", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันปิยมหาราช", "instr": null}]}, {"month": "ตุลาคม", "week": "wk18", "date": 26, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS", "instr": "(อาจารย์)"}, {"time": "13:00-17:00", "topic": "ALS", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk18", "date": 27, "day": "อังคาร", "sessions": [{"time": "9:00-12:00", "topic": "EMC2 (Med)", "instr": "(อาจารย์)"}, {"time": "13:00-16:00", "topic": "EMC2 (Med)", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk18", "date": 28, "day": "พุธ", "sessions": [{"time": null, "topic": "Final MCQ", "instr": null}]}, {"month": "ตุลาคม", "week": "wk18", "date": 29, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "Final MCQ", "instr": null}]}, {"month": "ตุลาคม", "week": "wk18", "date": 30, "day": "ศุกร์", "sessions": [{"time": null, "topic": "OSCE", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 2, "day": "จันทร์", "sessions": [{"time": null, "topic": "สอบซ่อม MCQ (final)", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 3, "day": "อังคาร", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 4, "day": "พุธ", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 5, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 6, "day": "ศุกร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 9, "day": "จันทร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 10, "day": "อังคาร", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 11, "day": "พุธ", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 12, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "อาจารย์สาขาและอาจารย์แหล่งฝึกประชุมเตรียมความพร้อมเปิดภาคเรียน 2/2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 13, "day": "ศุกร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk21", "date": 16, "day": "จันทร์", "sessions": [{"time": null, "topic": "เปิดภาคเรียนตามปฏิทินมหาวิทยาลัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk21", "date": 17, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}];
+window.__DUTY__ = {"ก.ค.69": {"title": "ตารางปฏิบัติงาน นิสิตมหาวิทยาลัยมหาสารคาม เดือน กรกฏาคม 2569", "days": {"3": 6, "4": 7, "5": 8, "6": 9, "7": 10, "8": 11, "9": 12, "10": 13, "11": 14, "12": 15, "13": 16, "14": 17, "15": 18, "16": 19, "17": 20, "18": 21, "19": 22, "20": 23, "21": 24, "22": 25, "23": 26, "24": 27, "25": 28, "26": 29, "27": 30, "28": 31}, "students": [{"idx": 1, "name": "นายชลธาร สุท้าว", "days": {"6": {"val": "บ", "pos": "EMS"}, "11": {"val": "ช", "pos": "CCC"}, "18": {"val": "บ", "pos": "RESUS"}, "20": {"val": "บ", "pos": "EMS"}, "25": {"val": "บ", "pos": "CCC"}, "28": {"val": "ช", "pos": "screen"}, "30": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 2, "name": "นางสาวมุทิตา เฝ้าทรัพย์", "days": {"6": {"val": "บ", "pos": "EMS"}, "11": {"val": "ช", "pos": "CCC"}, "18": {"val": "บ", "pos": "RESUS"}, "20": {"val": "บ", "pos": "EMS"}, "25": {"val": "บ", "pos": "CCC"}, "28": {"val": "ช", "pos": "Treatment"}, "30": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 3, "name": "นางสาววาสนา กระมูล", "days": {"6": {"val": "บ", "pos": null}, "11": {"val": "ช", "pos": "EMS"}, "18": {"val": "บ", "pos": "Treatment"}, "20": {"val": "บ", "pos": null}, "25": {"val": "บ", "pos": "EMS"}, "28": {"val": "ช", "pos": "CCC"}, "30": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 4, "name": "นางสาวกุลปรียา ฟุ้งเฟื่อง", "days": {"6": {"val": "บ", "pos": null}, "11": {"val": "ช", "pos": "EMS"}, "18": {"val": "บ", "pos": "screen"}, "20": {"val": "บ", "pos": null}, "25": {"val": "บ", "pos": "EMS"}, "28": {"val": "ช", "pos": "CCC"}, "30": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 5, "name": "นายนิธิกร บริบาล", "days": {"6": {"val": "บ", "pos": "Treatment"}, "11": {"val": "ช", "pos": null}, "18": {"val": "บ", "pos": "CCC"}, "20": {"val": "บ", "pos": "screen"}, "25": {"val": "บ", "pos": "RESUS"}, "28": {"val": "ช", "pos": "EMS"}, "30": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 6, "name": "นางสาวณัฏฐาภัค จีนศรีคง", "days": {"6": {"val": "บ", "pos": "screen"}, "11": {"val": "ช", "pos": null}, "18": {"val": "บ", "pos": "CCC"}, "20": {"val": "บ", "pos": "Treatment"}, "25": {"val": "บ", "pos": "RESUS"}, "28": {"val": "ช", "pos": "EMS"}, "30": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 7, "name": "นางสาวปาลิดา อ่อนน้อม", "days": {"6": {"val": "บ", "pos": null}, "11": {"val": "ช", "pos": "Treatment"}, "18": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": null}, "25": {"val": "บ", "pos": "screen"}, "28": {"val": "ช", "pos": "RESUS"}, "30": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 8, "name": "นางสาวลภัสรดา สิงหนุต", "days": {"6": {"val": "บ", "pos": null}, "11": {"val": "ช", "pos": "screen"}, "18": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": null}, "25": {"val": "บ", "pos": "Treatment"}, "28": {"val": "ช", "pos": "RESUS"}, "30": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 9, "name": "นางสาววนิดา แสนมะฮุง", "days": {"7": {"val": "บ", "pos": "EMS"}, "11": {"val": "บ", "pos": "CCC"}, "14": {"val": "บ", "pos": "Treatment"}, "18": {"val": "ช", "pos": "RESUS"}, "21": {"val": "บ", "pos": "EMS"}, "25": {"val": "ช", "pos": "CCC"}, "28": {"val": "บ", "pos": "screen"}, "31": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 10, "name": "นางสาวอสมาภรณ์ สอนลิลา", "days": {"7": {"val": "บ", "pos": "EMS"}, "11": {"val": "บ", "pos": "CCC"}, "14": {"val": "บ", "pos": "screen"}, "18": {"val": "ช", "pos": "RESUS"}, "21": {"val": "บ", "pos": "EMS"}, "25": {"val": "ช", "pos": "CCC"}, "28": {"val": "บ", "pos": "Treatment"}, "31": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 11, "name": "นางสาวจิรัชญา วรรณศรี", "days": {"7": {"val": "บ", "pos": null}, "11": {"val": "บ", "pos": "EMS"}, "14": {"val": "บ", "pos": "CCC"}, "18": {"val": "ช", "pos": "Treatment"}, "21": {"val": "บ", "pos": null}, "25": {"val": "ช", "pos": "EMS"}, "28": {"val": "บ", "pos": "CCC"}, "31": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 12, "name": "นางสาวหทัยรัตน์ วงศ์ศรีทา", "days": {"7": {"val": "บ", "pos": null}, "11": {"val": "บ", "pos": "EMS"}, "14": {"val": "บ", "pos": "CCC"}, "18": {"val": "ช", "pos": "screen"}, "21": {"val": "บ", "pos": null}, "25": {"val": "ช", "pos": "EMS"}, "28": {"val": "บ", "pos": "CCC"}, "31": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 13, "name": "นางสาวปวีณา ประมูลทรัพย์", "days": {"7": {"val": "บ", "pos": "Treatment"}, "11": {"val": "บ", "pos": "RESUS"}, "14": {"val": "บ", "pos": "EMS"}, "18": {"val": "ช", "pos": "CCC"}, "21": {"val": "บ", "pos": "screen"}, "25": {"val": "ช", "pos": null}, "28": {"val": "บ", "pos": "EMS"}, "31": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 14, "name": "นายชัชพิสิฐ กะมะรี", "days": {"7": {"val": "บ", "pos": "screen"}, "11": {"val": "บ", "pos": "RESUS"}, "14": {"val": "บ", "pos": "EMS"}, "18": {"val": "ช", "pos": "CCC"}, "21": {"val": "บ", "pos": "Treatment"}, "25": {"val": "ช", "pos": null}, "28": {"val": "บ", "pos": "EMS"}, "31": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 15, "name": "นางสาวปณิตตรา ตาปราบ", "days": {"7": {"val": "บ", "pos": null}, "11": {"val": "บ", "pos": "Treatment"}, "14": {"val": "บ", "pos": "RESUS"}, "18": {"val": "ช", "pos": "EMS"}, "21": {"val": "บ", "pos": null}, "25": {"val": "ช", "pos": "screen"}, "28": {"val": "บ", "pos": "RESUS"}, "31": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 16, "name": "นางสาวชลธิชา สุทธิโสกเชือก", "days": {"7": {"val": "บ", "pos": null}, "11": {"val": "บ", "pos": "screen"}, "14": {"val": "บ", "pos": "RESUS"}, "18": {"val": "ช", "pos": "EMS"}, "21": {"val": "บ", "pos": null}, "25": {"val": "ช", "pos": "Treatment"}, "28": {"val": "บ", "pos": "RESUS"}, "31": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 6, "ด": 0, "รวม": 8}}, {"idx": 17, "name": "นางสาวบัวบุษกร น้อยแสง", "days": {"8": {"val": "บ", "pos": "EMS"}, "12": {"val": "ช", "pos": "CCC"}, "15": {"val": "บ", "pos": "Treatment"}, "19": {"val": "บ", "pos": "RESUS"}, "22": {"val": "บ", "pos": "EMS"}, "26": {"val": "ช", "pos": "CCC"}, "29": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 18, "name": "นางสาวพิยดา ดวงแก้ว", "days": {"8": {"val": "บ", "pos": "EMS"}, "12": {"val": "ช", "pos": "CCC"}, "15": {"val": "บ", "pos": "screen"}, "19": {"val": "บ", "pos": "RESUS"}, "22": {"val": "บ", "pos": "EMS"}, "26": {"val": "ช", "pos": "CCC"}, "29": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 19, "name": "นายจิรายุทธ คุ้มทอง", "days": {"8": {"val": "บ", "pos": null}, "12": {"val": "ช", "pos": "EMS"}, "15": {"val": "บ", "pos": "CCC"}, "19": {"val": "บ", "pos": "Treatment"}, "22": {"val": "บ", "pos": null}, "26": {"val": "ช", "pos": "EMS"}, "29": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 20, "name": "นายกิติพัฒน์ ใจใหญ่", "days": {"8": {"val": "บ", "pos": null}, "12": {"val": "ช", "pos": "EMS"}, "15": {"val": "บ", "pos": "CCC"}, "19": {"val": "บ", "pos": "screen"}, "22": {"val": "บ", "pos": null}, "26": {"val": "ช", "pos": "EMS"}, "29": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 21, "name": "นางสาวนิตยา นนทะ", "days": {"8": {"val": "บ", "pos": "Treatment"}, "12": {"val": "ช", "pos": null}, "15": {"val": "บ", "pos": "EMS"}, "19": {"val": "บ", "pos": "CCC"}, "22": {"val": "บ", "pos": "screen"}, "26": {"val": "ช", "pos": null}, "29": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 22, "name": "นายอาทิตย์ สุวรรณบล", "days": {"8": {"val": "บ", "pos": "screen"}, "12": {"val": "ช", "pos": null}, "15": {"val": "บ", "pos": "EMS"}, "19": {"val": "บ", "pos": "CCC"}, "22": {"val": "บ", "pos": "Treatment"}, "26": {"val": "ช", "pos": null}, "29": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 23, "name": "นายสุทธิราช ผางนิล", "days": {"8": {"val": "บ", "pos": null}, "12": {"val": "ช", "pos": "screen"}, "15": {"val": "บ", "pos": "RESUS"}, "19": {"val": "บ", "pos": "EMS"}, "22": {"val": "บ", "pos": null}, "26": {"val": "ช", "pos": "screen"}, "29": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 24, "name": "นางสาวมลธิกานต์ มีหา", "days": {"8": {"val": "บ", "pos": null}, "12": {"val": "ช", "pos": "Treatment"}, "15": {"val": "บ", "pos": "RESUS"}, "19": {"val": "บ", "pos": "EMS"}, "22": {"val": "บ", "pos": null}, "26": {"val": "ช", "pos": "Treatment"}, "29": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 25, "name": "นางสาวพลอยชมภู มนัสสีลา", "days": {"9": {"val": "บ", "pos": "EMS"}, "12": {"val": "บ", "pos": "CCC"}, "16": {"val": "บ", "pos": "Treatment"}, "19": {"val": "ช", "pos": "RESUS"}, "23": {"val": "บ", "pos": "EMS"}, "26": {"val": "บ", "pos": "CCC"}, "29": {"val": "ช", "pos": "screen"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 26, "name": "นายธนพงษ์ เนตรพันธ์", "days": {"9": {"val": "บ", "pos": "EMS"}, "12": {"val": "บ", "pos": "CCC"}, "16": {"val": "บ", "pos": "screen"}, "19": {"val": "ช", "pos": "RESUS"}, "23": {"val": "บ", "pos": "EMS"}, "26": {"val": "บ", "pos": "CCC"}, "29": {"val": "ช", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 27, "name": "นางสาวมนัสนันท์ เห็นถูก", "days": {"9": {"val": "บ", "pos": null}, "12": {"val": "บ", "pos": "EMS"}, "16": {"val": "บ", "pos": "CCC"}, "19": {"val": "ช", "pos": "Treatment"}, "23": {"val": "บ", "pos": null}, "26": {"val": "บ", "pos": "EMS"}, "29": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 28, "name": "นางสาวจันทร์จิรา พยัคฆา", "days": {"9": {"val": "บ", "pos": null}, "12": {"val": "บ", "pos": "EMS"}, "16": {"val": "บ", "pos": "CCC"}, "19": {"val": "ช", "pos": "screen"}, "23": {"val": "บ", "pos": null}, "26": {"val": "บ", "pos": "EMS"}, "29": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 29, "name": "นางสาวทิพวรรณ รางศรี", "days": {"9": {"val": "บ", "pos": "Treatment"}, "12": {"val": "บ", "pos": "RESUS"}, "16": {"val": "บ", "pos": "EMS"}, "19": {"val": "ช", "pos": "CCC"}, "23": {"val": "บ", "pos": "screen"}, "26": {"val": "บ", "pos": "RESUS"}, "29": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 30, "name": "นางสาวนภัทร อินทร์สุข", "days": {"9": {"val": "บ", "pos": "screen"}, "12": {"val": "บ", "pos": "RESUS"}, "16": {"val": "บ", "pos": "EMS"}, "19": {"val": "ช", "pos": "CCC"}, "23": {"val": "บ", "pos": "Treatment"}, "26": {"val": "บ", "pos": "RESUS"}, "29": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 31, "name": "นายวรเมธ สุวรรณชนะ", "days": {"9": {"val": "บ", "pos": null}, "12": {"val": "บ", "pos": "Treatment"}, "16": {"val": "บ", "pos": "RESUS"}, "19": {"val": "ช", "pos": "EMS"}, "23": {"val": "บ", "pos": null}, "26": {"val": "บ", "pos": "screen"}, "29": {"val": "ช", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 32, "name": "นางสาวชุติกาญจน์ พารารัมย์", "days": {"9": {"val": "บ", "pos": null}, "12": {"val": "บ", "pos": "screen"}, "16": {"val": "บ", "pos": "RESUS"}, "19": {"val": "ช", "pos": "EMS"}, "23": {"val": "บ", "pos": null}, "26": {"val": "บ", "pos": "Treatment"}, "29": {"val": "ช", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 33, "name": "นายกฤษฎา ม้วนโคกสูง", "days": {"10": {"val": "บ", "pos": "EMS"}, "13": {"val": "บ", "pos": "CCC"}, "17": {"val": "บ", "pos": "Treatment"}, "20": {"val": "บ", "pos": "RESUS"}, "24": {"val": "บ", "pos": "EMS"}, "27": {"val": "บ", "pos": "CCC"}, "30": {"val": "ช", "pos": "screen"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}, {"idx": 34, "name": "นายยุทธวีร์ ปาละนันท์", "days": {"10": {"val": "บ", "pos": "EMS"}, "13": {"val": "บ", "pos": "CCC"}, "17": {"val": "บ", "pos": "screen"}, "20": {"val": "บ", "pos": "RESUS"}, "24": {"val": "บ", "pos": "EMS"}, "27": {"val": "บ", "pos": "CCC"}, "30": {"val": "ช", "pos": "Treatment"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}, {"idx": 35, "name": "นายยุทธภูมิ นาคกระแสร์", "days": {"10": {"val": "บ", "pos": null}, "13": {"val": "บ", "pos": "EMS"}, "17": {"val": "บ", "pos": "CCC"}, "20": {"val": "บ", "pos": "Treatment"}, "24": {"val": "บ", "pos": null}, "27": {"val": "บ", "pos": "EMS"}, "30": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}, {"idx": 36, "name": "นายธนภัทร ศิริเพ็ชร", "days": {"10": {"val": "บ", "pos": null}, "13": {"val": "บ", "pos": "EMS"}, "17": {"val": "บ", "pos": "CCC"}, "20": {"val": "บ", "pos": "screen"}, "24": {"val": "บ", "pos": null}, "27": {"val": "บ", "pos": "EMS"}, "30": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}, {"idx": 37, "name": "นางสาวสิริกร พรหมกสิกร", "days": {"10": {"val": "บ", "pos": "Treatment"}, "13": {"val": "บ", "pos": "RESUS"}, "17": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": "CCC"}, "24": {"val": "บ", "pos": "screen"}, "27": {"val": "บ", "pos": "RESUS"}, "30": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}, {"idx": 38, "name": "นางสาวภัทรวดี ถึงดี", "days": {"10": {"val": "บ", "pos": "screen"}, "13": {"val": "บ", "pos": "RESUS"}, "17": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": "CCC"}, "24": {"val": "บ", "pos": "Treatment"}, "27": {"val": "บ", "pos": "RESUS"}, "30": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}, {"idx": 39, "name": "นางสาวลิลลี่ เจมส์ ทาวนเซนด์", "days": {"10": {"val": "บ", "pos": null}, "13": {"val": "บ", "pos": "Treatment"}, "17": {"val": "บ", "pos": "RESUS"}, "20": {"val": "บ", "pos": "EMS"}, "24": {"val": "บ", "pos": null}, "27": {"val": "บ", "pos": "screen"}, "30": {"val": "ช", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}, {"idx": 40, "name": "นางสาวเปรมวดี ภูเต้านาค", "days": {"10": {"val": "บ", "pos": null}, "13": {"val": "บ", "pos": "screen"}, "17": {"val": "บ", "pos": "RESUS"}, "20": {"val": "บ", "pos": "EMS"}, "24": {"val": "บ", "pos": null}, "27": {"val": "บ", "pos": "Treatment"}, "30": {"val": "ช", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 6, "ด": 0, "รวม": 7}}], "month_num": 7, "month_name": "กรกฎาคม", "year_ce": 2026, "day_meta": {"6": {"weekday": "จันทร์", "isToday": false}, "7": {"weekday": "อังคาร", "isToday": false}, "8": {"weekday": "พุธ", "isToday": false}, "9": {"weekday": "พฤหัสบดี", "isToday": true}, "10": {"weekday": "ศุกร์", "isToday": false}, "11": {"weekday": "เสาร์", "isToday": false}, "12": {"weekday": "อาทิตย์", "isToday": false}, "13": {"weekday": "จันทร์", "isToday": false}, "14": {"weekday": "อังคาร", "isToday": false}, "15": {"weekday": "พุธ", "isToday": false}, "16": {"weekday": "พฤหัสบดี", "isToday": false}, "17": {"weekday": "ศุกร์", "isToday": false}, "18": {"weekday": "เสาร์", "isToday": false}, "19": {"weekday": "อาทิตย์", "isToday": false}, "20": {"weekday": "จันทร์", "isToday": false}, "21": {"weekday": "อังคาร", "isToday": false}, "22": {"weekday": "พุธ", "isToday": false}, "23": {"weekday": "พฤหัสบดี", "isToday": false}, "24": {"weekday": "ศุกร์", "isToday": false}, "25": {"weekday": "เสาร์", "isToday": false}, "26": {"weekday": "อาทิตย์", "isToday": false}, "27": {"weekday": "จันทร์", "isToday": false}, "28": {"weekday": "อังคาร", "isToday": false}, "29": {"weekday": "พุธ", "isToday": false}, "30": {"weekday": "พฤหัสบดี", "isToday": false}, "31": {"weekday": "ศุกร์", "isToday": false}}}, "ส.ค.69": {"title": "ตารางปฏิบัติงาน นิสิตมหาวิทยาลัยมหาสารคาม เดือน สิงหาคม 2569", "days": {"3": 1, "4": 2, "5": 3, "6": 4, "7": 5, "8": 6, "9": 7, "10": 8, "11": 9, "12": 10, "13": 11, "14": 12, "15": 13, "16": 14, "17": 15, "18": 16, "19": 17, "20": 18, "21": 19, "22": 20, "23": 21, "24": 22, "25": 23, "26": 24, "27": 25, "28": 26, "29": 27, "30": 28, "31": 29, "32": 30, "33": 31}, "students": [{"idx": 1, "name": "นายชลธาร สุท้าว", "days": {"2": {"val": "บ", "pos": "EMS"}, "7": {"val": "บ", "pos": "CCC"}, "10": {"val": "บ", "pos": "Treatment"}, "13": {"val": "สอบ Midterm MCQ", "pos": null}, "22": {"val": "บ", "pos": "RESUS"}, "26": {"val": "บ", "pos": "EMS"}, "29": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 2, "name": "นางสาวมุทิตา เฝ้าทรัพย์", "days": {"2": {"val": "บ", "pos": "EMS"}, "7": {"val": "บ", "pos": "CCC"}, "10": {"val": "บ", "pos": "screen"}, "22": {"val": "บ", "pos": "RESUS"}, "26": {"val": "บ", "pos": "EMS"}, "29": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 3, "name": "นางสาววาสนา กระมูล", "days": {"2": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "EMS"}, "10": {"val": "บ", "pos": "CCC"}, "22": {"val": "บ", "pos": "Treatment"}, "26": {"val": "บ", "pos": null}, "29": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 4, "name": "นางสาวกุลปรียา ฟุ้งเฟื่อง", "days": {"2": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "EMS"}, "10": {"val": "บ", "pos": "CCC"}, "22": {"val": "บ", "pos": "screen"}, "26": {"val": "บ", "pos": null}, "29": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 5, "name": "นายนิธิกร บริบาล", "days": {"2": {"val": "บ", "pos": "Treatment"}, "7": {"val": "บ", "pos": "RESUS"}, "10": {"val": "บ", "pos": "EMS"}, "22": {"val": "บ", "pos": "CCC"}, "26": {"val": "บ", "pos": "screen"}, "29": {"val": "ช", "pos": null}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 6, "name": "นางสาวณัฏฐาภัค จีนศรีคง", "days": {"2": {"val": "บ", "pos": "screen"}, "7": {"val": "บ", "pos": "RESUS"}, "10": {"val": "บ", "pos": "EMS"}, "22": {"val": "บ", "pos": "CCC"}, "26": {"val": "บ", "pos": "Treatment"}, "29": {"val": "ช", "pos": null}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 7, "name": "นางสาวปาลิดา อ่อนน้อม", "days": {"2": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "Treatment"}, "10": {"val": "บ", "pos": "RESUS"}, "22": {"val": "บ", "pos": "EMS"}, "26": {"val": "บ", "pos": null}, "29": {"val": "ช", "pos": "screen"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 8, "name": "นางสาวลภัสรดา สิงหนุต", "days": {"2": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "screen"}, "10": {"val": "บ", "pos": "RESUS"}, "22": {"val": "บ", "pos": "EMS"}, "26": {"val": "บ", "pos": null}, "29": {"val": "ช", "pos": "Treatment"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 9, "name": "นางสาววนิดา แสนมะฮุง", "days": {"3": {"val": "บ", "pos": "EMS"}, "8": {"val": "ช", "pos": "CCC"}, "11": {"val": "บ", "pos": "Treatment"}, "23": {"val": "ช", "pos": "RESUS"}, "27": {"val": "บ", "pos": "EMS"}, "29": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 10, "name": "นางสาวอสมาภรณ์ สอนลิลา", "days": {"3": {"val": "บ", "pos": "EMS"}, "8": {"val": "ช", "pos": "CCC"}, "11": {"val": "บ", "pos": "screen"}, "23": {"val": "ช", "pos": "RESUS"}, "27": {"val": "บ", "pos": "EMS"}, "29": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 11, "name": "นางสาวจิรัชญา วรรณศรี", "days": {"3": {"val": "บ", "pos": null}, "8": {"val": "ช", "pos": "EMS"}, "11": {"val": "บ", "pos": "CCC"}, "23": {"val": "ช", "pos": "Treatment"}, "27": {"val": "บ", "pos": null}, "29": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 12, "name": "นางสาวหทัยรัตน์ วงศ์ศรีทา", "days": {"3": {"val": "บ", "pos": null}, "8": {"val": "ช", "pos": "EMS"}, "11": {"val": "บ", "pos": "CCC"}, "23": {"val": "ช", "pos": "screen"}, "27": {"val": "บ", "pos": null}, "29": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 13, "name": "นางสาวปวีณา ประมูลทรัพย์", "days": {"3": {"val": "บ", "pos": "Treatment"}, "8": {"val": "ช", "pos": null}, "11": {"val": "บ", "pos": "EMS"}, "23": {"val": "ช", "pos": "CCC"}, "27": {"val": "บ", "pos": "screen"}, "29": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 14, "name": "นายชัชพิสิฐ กะมะรี", "days": {"3": {"val": "บ", "pos": "screen"}, "8": {"val": "ช", "pos": null}, "11": {"val": "บ", "pos": "EMS"}, "23": {"val": "ช", "pos": "CCC"}, "27": {"val": "บ", "pos": "Treatment"}, "29": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 15, "name": "นางสาวปณิตตรา ตาปราบ", "days": {"3": {"val": "บ", "pos": null}, "8": {"val": "ช", "pos": "Treatment"}, "11": {"val": "บ", "pos": "RESUS"}, "23": {"val": "ช", "pos": "EMS"}, "27": {"val": "บ", "pos": null}, "29": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 16, "name": "นางสาวชลธิชา สุทธิโสกเชือก", "days": {"3": {"val": "บ", "pos": null}, "8": {"val": "ช", "pos": "screen"}, "11": {"val": "บ", "pos": "RESUS"}, "23": {"val": "ช", "pos": "EMS"}, "27": {"val": "บ", "pos": null}, "29": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 17, "name": "นางสาวบัวบุษกร น้อยแสง", "days": {"1": {"val": "ช", "pos": "RESUS"}, "4": {"val": "บ", "pos": "EMS"}, "8": {"val": "บ", "pos": "CCC"}, "12": {"val": "ช", "pos": "Treatment"}, "23": {"val": "บ", "pos": "RESUS"}, "28": {"val": "บ", "pos": "EMS"}, "30": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 18, "name": "นางสาวพิยดา ดวงแก้ว", "days": {"1": {"val": "ช", "pos": "RESUS"}, "4": {"val": "บ", "pos": "EMS"}, "8": {"val": "บ", "pos": "CCC"}, "12": {"val": "ช", "pos": "screen"}, "23": {"val": "บ", "pos": "RESUS"}, "28": {"val": "บ", "pos": "EMS"}, "30": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 19, "name": "นายจิรายุทธ คุ้มทอง", "days": {"1": {"val": "ช", "pos": "screen"}, "4": {"val": "บ", "pos": null}, "8": {"val": "บ", "pos": "EMS"}, "12": {"val": "ช", "pos": "CCC"}, "23": {"val": "บ", "pos": "Treatment"}, "28": {"val": "บ", "pos": null}, "30": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 20, "name": "นายกิติพัฒน์ ใจใหญ่", "days": {"1": {"val": "ช", "pos": "Treatment"}, "4": {"val": "บ", "pos": null}, "8": {"val": "บ", "pos": "EMS"}, "12": {"val": "ช", "pos": "CCC"}, "23": {"val": "บ", "pos": "screen"}, "28": {"val": "บ", "pos": null}, "30": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 21, "name": "นางสาวนิตยา นนทะ", "days": {"1": {"val": "ช", "pos": "CCC"}, "4": {"val": "บ", "pos": "Treatment"}, "8": {"val": "บ", "pos": "RESUS"}, "12": {"val": "ช", "pos": "EMS"}, "23": {"val": "บ", "pos": "CCC"}, "28": {"val": "บ", "pos": "screen"}, "30": {"val": "ช", "pos": null}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 22, "name": "นายอาทิตย์ สุวรรณบล", "days": {"1": {"val": "ช", "pos": "CCC"}, "4": {"val": "บ", "pos": "screen"}, "8": {"val": "บ", "pos": "RESUS"}, "12": {"val": "ช", "pos": "EMS"}, "23": {"val": "บ", "pos": "CCC"}, "28": {"val": "บ", "pos": "Treatment"}, "30": {"val": "ช", "pos": null}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 23, "name": "นายสุทธิราช ผางนิล", "days": {"1": {"val": "ช", "pos": "EMS"}, "4": {"val": "บ", "pos": null}, "8": {"val": "บ", "pos": "Treatment"}, "12": {"val": "ช", "pos": "RESUS"}, "23": {"val": "บ", "pos": "EMS"}, "28": {"val": "บ", "pos": null}, "30": {"val": "ช", "pos": "screen"}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 24, "name": "นางสาวมลธิกานต์ มีหา", "days": {"1": {"val": "ช", "pos": "EMS"}, "4": {"val": "บ", "pos": null}, "8": {"val": "บ", "pos": "screen"}, "12": {"val": "ช", "pos": "RESUS"}, "23": {"val": "บ", "pos": "EMS"}, "28": {"val": "บ", "pos": null}, "30": {"val": "ช", "pos": "Treatment"}}, "summary": {"ช": 3, "บ": 4, "ด": 0, "รวม": 7}}, {"idx": 25, "name": "นางสาวพลอยชมภู มนัสสีลา", "days": {"1": {"val": "บ", "pos": "RESUS"}, "5": {"val": "บ", "pos": "EMS"}, "9": {"val": "ช", "pos": "CCC"}, "12": {"val": "บ", "pos": "Treatment"}, "24": {"val": "บ", "pos": "RESUS"}, "29": {"val": "ช", "pos": "EMS"}, "30": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 26, "name": "นายธนพงษ์ เนตรพันธ์", "days": {"1": {"val": "บ", "pos": "RESUS"}, "5": {"val": "บ", "pos": "EMS"}, "9": {"val": "ช", "pos": "CCC"}, "12": {"val": "บ", "pos": "screen"}, "24": {"val": "บ", "pos": "RESUS"}, "29": {"val": "ช", "pos": "EMS"}, "30": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 27, "name": "นางสาวมนัสนันท์ เห็นถูก", "days": {"1": {"val": "บ", "pos": "screen"}, "5": {"val": "บ", "pos": null}, "9": {"val": "ช", "pos": "EMS"}, "12": {"val": "บ", "pos": "CCC"}, "24": {"val": "บ", "pos": "Treatment"}, "29": {"val": "ช", "pos": null}, "30": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 28, "name": "นางสาวจันทร์จิรา พยัคฆา", "days": {"1": {"val": "บ", "pos": "Treatment"}, "5": {"val": "บ", "pos": null}, "9": {"val": "ช", "pos": "EMS"}, "12": {"val": "บ", "pos": "CCC"}, "24": {"val": "บ", "pos": "screen"}, "29": {"val": "ช", "pos": null}, "30": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 29, "name": "นางสาวทิพวรรณ รางศรี", "days": {"1": {"val": "บ", "pos": "CCC"}, "5": {"val": "บ", "pos": "Treatment"}, "9": {"val": "ช", "pos": null}, "12": {"val": "บ", "pos": "EMS"}, "24": {"val": "บ", "pos": "CCC"}, "29": {"val": "ช", "pos": "screen"}, "30": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 30, "name": "นางสาวนภัทร อินทร์สุข", "days": {"1": {"val": "บ", "pos": "CCC"}, "5": {"val": "บ", "pos": "screen"}, "9": {"val": "ช", "pos": null}, "12": {"val": "บ", "pos": "EMS"}, "24": {"val": "บ", "pos": "CCC"}, "29": {"val": "ช", "pos": "Treatment"}, "30": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 31, "name": "นายวรเมธ สุวรรณชนะ", "days": {"1": {"val": "บ", "pos": "EMS"}, "5": {"val": "บ", "pos": null}, "9": {"val": "ช", "pos": "Treatment"}, "12": {"val": "บ", "pos": "RESUS"}, "24": {"val": "บ", "pos": "EMS"}, "29": {"val": "ช", "pos": null}, "30": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 32, "name": "นางสาวชุติกาญจน์ พารารัมย์", "days": {"1": {"val": "บ", "pos": "EMS"}, "5": {"val": "บ", "pos": null}, "9": {"val": "ช", "pos": "screen"}, "12": {"val": "บ", "pos": "RESUS"}, "24": {"val": "บ", "pos": "EMS"}, "29": {"val": "ช", "pos": null}, "30": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 33, "name": "นายกฤษฎา ม้วนโคกสูง", "days": {"2": {"val": "ช", "pos": "RESUS"}, "6": {"val": "บ", "pos": "EMS"}, "9": {"val": "บ", "pos": "CCC"}, "22": {"val": "ช", "pos": "Treatment"}, "25": {"val": "บ", "pos": "RESUS"}, "29": {"val": "บ", "pos": "EMS"}, "31": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 34, "name": "นายยุทธวีร์ ปาละนันท์", "days": {"2": {"val": "ช", "pos": "RESUS"}, "6": {"val": "บ", "pos": "EMS"}, "9": {"val": "บ", "pos": "CCC"}, "22": {"val": "ช", "pos": "screen"}, "25": {"val": "บ", "pos": "RESUS"}, "29": {"val": "บ", "pos": "EMS"}, "31": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 35, "name": "นายยุทธภูมิ นาคกระแสร์", "days": {"2": {"val": "ช", "pos": "screen"}, "6": {"val": "บ", "pos": null}, "9": {"val": "บ", "pos": "EMS"}, "22": {"val": "ช", "pos": "CCC"}, "25": {"val": "บ", "pos": "Treatment"}, "29": {"val": "บ", "pos": null}, "31": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 36, "name": "นายธนภัทร ศิริเพ็ชร", "days": {"2": {"val": "ช", "pos": "Treatment"}, "6": {"val": "บ", "pos": null}, "9": {"val": "บ", "pos": "EMS"}, "22": {"val": "ช", "pos": "CCC"}, "25": {"val": "บ", "pos": "screen"}, "29": {"val": "บ", "pos": null}, "31": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 37, "name": "นางสาวสิริกร พรหมกสิกร", "days": {"2": {"val": "ช", "pos": "CCC"}, "6": {"val": "บ", "pos": "Treatment"}, "9": {"val": "บ", "pos": "RESUS"}, "22": {"val": "ช", "pos": "EMS"}, "25": {"val": "บ", "pos": "CCC"}, "29": {"val": "บ", "pos": "screen"}, "31": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 38, "name": "นางสาวภัทรวดี ถึงดี", "days": {"2": {"val": "ช", "pos": "CCC"}, "6": {"val": "บ", "pos": "screen"}, "9": {"val": "บ", "pos": "RESUS"}, "22": {"val": "ช", "pos": "EMS"}, "25": {"val": "บ", "pos": "CCC"}, "29": {"val": "บ", "pos": "Treatment"}, "31": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 39, "name": "นางสาวลิลลี่ เจมส์ ทาวนเซนด์", "days": {"2": {"val": "ช", "pos": "EMS"}, "6": {"val": "บ", "pos": null}, "9": {"val": "บ", "pos": "Treatment"}, "22": {"val": "ช", "pos": "RESUS"}, "25": {"val": "บ", "pos": "EMS"}, "29": {"val": "บ", "pos": null}, "31": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 40, "name": "นางสาวเปรมวดี ภูเต้านาค", "days": {"2": {"val": "ช", "pos": "EMS"}, "6": {"val": "บ", "pos": null}, "9": {"val": "บ", "pos": "screen"}, "22": {"val": "ช", "pos": "RESUS"}, "25": {"val": "บ", "pos": "EMS"}, "29": {"val": "บ", "pos": null}, "31": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}], "month_num": 8, "month_name": "สิงหาคม", "year_ce": 2026, "day_meta": {"1": {"weekday": "เสาร์", "isToday": false}, "2": {"weekday": "อาทิตย์", "isToday": false}, "3": {"weekday": "จันทร์", "isToday": false}, "4": {"weekday": "อังคาร", "isToday": false}, "5": {"weekday": "พุธ", "isToday": false}, "6": {"weekday": "พฤหัสบดี", "isToday": false}, "7": {"weekday": "ศุกร์", "isToday": false}, "8": {"weekday": "เสาร์", "isToday": false}, "9": {"weekday": "อาทิตย์", "isToday": false}, "10": {"weekday": "จันทร์", "isToday": false}, "11": {"weekday": "อังคาร", "isToday": false}, "12": {"weekday": "พุธ", "isToday": false}, "13": {"weekday": "พฤหัสบดี", "isToday": false}, "14": {"weekday": "ศุกร์", "isToday": false}, "15": {"weekday": "เสาร์", "isToday": false}, "16": {"weekday": "อาทิตย์", "isToday": false}, "17": {"weekday": "จันทร์", "isToday": false}, "18": {"weekday": "อังคาร", "isToday": false}, "19": {"weekday": "พุธ", "isToday": false}, "20": {"weekday": "พฤหัสบดี", "isToday": false}, "21": {"weekday": "ศุกร์", "isToday": false}, "22": {"weekday": "เสาร์", "isToday": false}, "23": {"weekday": "อาทิตย์", "isToday": false}, "24": {"weekday": "จันทร์", "isToday": false}, "25": {"weekday": "อังคาร", "isToday": false}, "26": {"weekday": "พุธ", "isToday": false}, "27": {"weekday": "พฤหัสบดี", "isToday": false}, "28": {"weekday": "ศุกร์", "isToday": false}, "29": {"weekday": "เสาร์", "isToday": false}, "30": {"weekday": "อาทิตย์", "isToday": false}, "31": {"weekday": "จันทร์", "isToday": false}}}, "ก.ย.69": {"title": "ตารางปฏิบัติงาน นิสิตมหาวิทยาลัยมหาสารคาม เดือน กันยายน 2569", "days": {"3": 1, "4": 2, "5": 3, "6": 4, "7": 5, "8": 6, "9": 7, "10": 8, "11": 9, "12": 10, "13": 11, "14": 12, "15": 13, "16": 14, "17": 15, "18": 16, "19": 17, "20": 18, "21": 19, "22": 20, "23": 21, "24": 22, "25": 23, "26": 24, "27": 25, "28": 26, "29": 27, "30": 28, "31": 29, "32": 30}, "students": [{"idx": 1, "name": "นายชลธาร สุท้าว", "days": {"1": {"val": "สอบแก้ MCQ", "pos": null}, "5": {"val": "ช", "pos": "screen"}, "8": {"val": "บ", "pos": "RESUS"}, "12": {"val": "บ", "pos": "EMS"}, "16": {"val": "BDHM", "pos": null}, "19": {"val": "ช", "pos": "CCC"}, "22": {"val": "บ", "pos": "Treatment"}, "26": {"val": "บ", "pos": "RESUS"}, "30": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 2, "name": "นางสาวมุทิตา เฝ้าทรัพย์", "days": {"5": {"val": "ช", "pos": "Treatment"}, "8": {"val": "บ", "pos": "RESUS"}, "12": {"val": "บ", "pos": "EMS"}, "19": {"val": "ช", "pos": "CCC"}, "22": {"val": "บ", "pos": "screen"}, "26": {"val": "บ", "pos": "RESUS"}, "30": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 3, "name": "นางสาววาสนา กระมูล", "days": {"5": {"val": "ช", "pos": "CCC"}, "8": {"val": "บ", "pos": "screen"}, "12": {"val": "บ", "pos": null}, "19": {"val": "ช", "pos": "EMS"}, "22": {"val": "บ", "pos": "CCC"}, "26": {"val": "บ", "pos": "Treatment"}, "30": {"val": "บ", "pos": null}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 4, "name": "นางสาวกุลปรียา ฟุ้งเฟื่อง", "days": {"5": {"val": "ช", "pos": "CCC"}, "8": {"val": "บ", "pos": "Treatment"}, "12": {"val": "บ", "pos": null}, "19": {"val": "ช", "pos": "EMS"}, "22": {"val": "บ", "pos": "CCC"}, "26": {"val": "บ", "pos": "screen"}, "30": {"val": "บ", "pos": null}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 5, "name": "นายนิธิกร บริบาล", "days": {"5": {"val": "ช", "pos": "EMS"}, "8": {"val": "บ", "pos": "CCC"}, "12": {"val": "บ", "pos": "Treatment"}, "19": {"val": "ช", "pos": null}, "22": {"val": "บ", "pos": "EMS"}, "26": {"val": "บ", "pos": "CCC"}, "30": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 6, "name": "นางสาวณัฏฐาภัค จีนศรีคง", "days": {"5": {"val": "ช", "pos": "EMS"}, "8": {"val": "บ", "pos": "CCC"}, "12": {"val": "บ", "pos": "screen"}, "19": {"val": "ช", "pos": null}, "22": {"val": "บ", "pos": "EMS"}, "26": {"val": "บ", "pos": "CCC"}, "30": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 7, "name": "นางสาวปาลิดา อ่อนน้อม", "days": {"5": {"val": "ช", "pos": "RESUS"}, "8": {"val": "บ", "pos": "EMS"}, "12": {"val": "บ", "pos": null}, "19": {"val": "ช", "pos": "Treatment"}, "22": {"val": "บ", "pos": "RESUS"}, "26": {"val": "บ", "pos": "EMS"}, "30": {"val": "บ", "pos": null}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 8, "name": "นางสาวลภัสรดา สิงหนุต", "days": {"5": {"val": "ช", "pos": "RESUS"}, "8": {"val": "บ", "pos": "EMS"}, "12": {"val": "บ", "pos": null}, "19": {"val": "ช", "pos": "screen"}, "22": {"val": "บ", "pos": "RESUS"}, "26": {"val": "บ", "pos": "EMS"}, "30": {"val": "บ", "pos": null}}, "summary": {"ช": 2, "บ": 5, "ด": 0, "รวม": 7}}, {"idx": 9, "name": "นางสาววนิดา แสนมะฮุง", "days": {"5": {"val": "บ", "pos": "screen"}, "9": {"val": "บ", "pos": "RESUS"}, "13": {"val": "ช", "pos": "EMS"}, "19": {"val": "บ", "pos": "CCC"}, "23": {"val": "บ", "pos": "Treatment"}, "27": {"val": "ช", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 10, "name": "นางสาวอสมาภรณ์ สอนลิลา", "days": {"5": {"val": "บ", "pos": "Treatment"}, "9": {"val": "บ", "pos": "RESUS"}, "13": {"val": "ช", "pos": "EMS"}, "19": {"val": "บ", "pos": "CCC"}, "23": {"val": "บ", "pos": "screen"}, "27": {"val": "ช", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 11, "name": "นางสาวจิรัชญา วรรณศรี", "days": {"5": {"val": "บ", "pos": "CCC"}, "9": {"val": "บ", "pos": "screen"}, "13": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "EMS"}, "23": {"val": "บ", "pos": "CCC"}, "27": {"val": "ช", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 12, "name": "นางสาวหทัยรัตน์ วงศ์ศรีทา", "days": {"5": {"val": "บ", "pos": "CCC"}, "9": {"val": "บ", "pos": "Treatment"}, "13": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "EMS"}, "23": {"val": "บ", "pos": "CCC"}, "27": {"val": "ช", "pos": "screen"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 13, "name": "นางสาวปวีณา ประมูลทรัพย์", "days": {"5": {"val": "บ", "pos": "EMS"}, "9": {"val": "บ", "pos": "CCC"}, "13": {"val": "ช", "pos": "Treatment"}, "19": {"val": "บ", "pos": "RESUS"}, "23": {"val": "บ", "pos": "EMS"}, "27": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 14, "name": "นายชัชพิสิฐ กะมะรี", "days": {"5": {"val": "บ", "pos": "EMS"}, "9": {"val": "บ", "pos": "CCC"}, "13": {"val": "ช", "pos": "screen"}, "19": {"val": "บ", "pos": "RESUS"}, "23": {"val": "บ", "pos": "EMS"}, "27": {"val": "ช", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 15, "name": "นางสาวปณิตตรา ตาปราบ", "days": {"5": {"val": "บ", "pos": "RESUS"}, "9": {"val": "บ", "pos": "EMS"}, "13": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "Treatment"}, "23": {"val": "บ", "pos": "RESUS"}, "27": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 16, "name": "นางสาวชลธิชา สุทธิโสกเชือก", "days": {"5": {"val": "บ", "pos": "RESUS"}, "9": {"val": "บ", "pos": "EMS"}, "13": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "screen"}, "23": {"val": "บ", "pos": "RESUS"}, "27": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 17, "name": "นางสาวบัวบุษกร น้อยแสง", "days": {"6": {"val": "ช", "pos": "screen"}, "10": {"val": "บ", "pos": "RESUS"}, "13": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": "CCC"}, "24": {"val": "บ", "pos": "Treatment"}, "27": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 18, "name": "นางสาวพิยดา ดวงแก้ว", "days": {"6": {"val": "ช", "pos": "Treatment"}, "10": {"val": "บ", "pos": "RESUS"}, "13": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": "CCC"}, "24": {"val": "บ", "pos": "screen"}, "27": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 19, "name": "นายจิรายุทธ คุ้มทอง", "days": {"6": {"val": "ช", "pos": "CCC"}, "10": {"val": "บ", "pos": "screen"}, "13": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "EMS"}, "24": {"val": "บ", "pos": "CCC"}, "27": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 20, "name": "นายกิติพัฒน์ ใจใหญ่", "days": {"6": {"val": "ช", "pos": "CCC"}, "10": {"val": "บ", "pos": "Treatment"}, "13": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "EMS"}, "24": {"val": "บ", "pos": "CCC"}, "27": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 21, "name": "นางสาวนิตยา นนทะ", "days": {"6": {"val": "ช", "pos": "EMS"}, "10": {"val": "บ", "pos": "CCC"}, "13": {"val": "บ", "pos": "Treatment"}, "20": {"val": "บ", "pos": "RESUS"}, "24": {"val": "บ", "pos": "EMS"}, "27": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 22, "name": "นายอาทิตย์ สุวรรณบล", "days": {"6": {"val": "ช", "pos": "EMS"}, "10": {"val": "บ", "pos": "CCC"}, "13": {"val": "บ", "pos": "screen"}, "20": {"val": "บ", "pos": "RESUS"}, "24": {"val": "บ", "pos": "EMS"}, "27": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 23, "name": "นายสุทธิราช ผางนิล", "days": {"6": {"val": "ช", "pos": "RESUS"}, "10": {"val": "บ", "pos": "EMS"}, "13": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "Treatment"}, "24": {"val": "บ", "pos": "RESUS"}, "27": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 24, "name": "นางสาวมลธิกานต์ มีหา", "days": {"6": {"val": "ช", "pos": "RESUS"}, "10": {"val": "บ", "pos": "EMS"}, "13": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "screen"}, "24": {"val": "บ", "pos": "RESUS"}, "27": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 25, "name": "นางสาวพลอยชมภู มนัสสีลา", "days": {"6": {"val": "บ", "pos": "screen"}, "11": {"val": "บ", "pos": "RESUS"}, "14": {"val": "บ", "pos": "EMS"}, "20": {"val": "ช", "pos": "CCC"}, "25": {"val": "บ", "pos": "Treatment"}, "28": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 26, "name": "นายธนพงษ์ เนตรพันธ์", "days": {"6": {"val": "บ", "pos": "Treatment"}, "11": {"val": "บ", "pos": "RESUS"}, "14": {"val": "บ", "pos": "EMS"}, "20": {"val": "ช", "pos": "CCC"}, "25": {"val": "บ", "pos": "screen"}, "28": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 27, "name": "นางสาวมนัสนันท์ เห็นถูก", "days": {"6": {"val": "บ", "pos": "CCC"}, "11": {"val": "บ", "pos": "screen"}, "14": {"val": "บ", "pos": null}, "20": {"val": "ช", "pos": "EMS"}, "25": {"val": "บ", "pos": "CCC"}, "28": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 28, "name": "นางสาวจันทร์จิรา พยัคฆา", "days": {"6": {"val": "บ", "pos": "CCC"}, "11": {"val": "บ", "pos": "Treatment"}, "14": {"val": "บ", "pos": null}, "20": {"val": "ช", "pos": "EMS"}, "25": {"val": "บ", "pos": "CCC"}, "28": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 29, "name": "นางสาวทิพวรรณ รางศรี", "days": {"6": {"val": "บ", "pos": "EMS"}, "11": {"val": "บ", "pos": "CCC"}, "14": {"val": "บ", "pos": "Treatment"}, "20": {"val": "ช", "pos": null}, "25": {"val": "บ", "pos": "EMS"}, "28": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 30, "name": "นางสาวนภัทร อินทร์สุข", "days": {"6": {"val": "บ", "pos": "EMS"}, "11": {"val": "บ", "pos": "CCC"}, "14": {"val": "บ", "pos": "screen"}, "20": {"val": "ช", "pos": null}, "25": {"val": "บ", "pos": "EMS"}, "28": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 31, "name": "นายวรเมธ สุวรรณชนะ", "days": {"6": {"val": "บ", "pos": "RESUS"}, "11": {"val": "บ", "pos": "EMS"}, "14": {"val": "บ", "pos": null}, "20": {"val": "ช", "pos": "Treatment"}, "25": {"val": "บ", "pos": "RESUS"}, "28": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 32, "name": "นางสาวชุติกาญจน์ พารารัมย์", "days": {"6": {"val": "บ", "pos": "RESUS"}, "11": {"val": "บ", "pos": "EMS"}, "14": {"val": "บ", "pos": null}, "20": {"val": "ช", "pos": "screen"}, "25": {"val": "บ", "pos": "RESUS"}, "28": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 33, "name": "นายกฤษฎา ม้วนโคกสูง", "days": {"7": {"val": "บ", "pos": "screen"}, "12": {"val": "ช", "pos": "EMS"}, "15": {"val": "บ", "pos": "CCC"}, "21": {"val": "บ", "pos": "Treatment"}, "26": {"val": "ช", "pos": "RESUS"}, "29": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 34, "name": "นายยุทธวีร์ ปาละนันท์", "days": {"7": {"val": "บ", "pos": "Treatment"}, "12": {"val": "ช", "pos": "EMS"}, "15": {"val": "บ", "pos": "CCC"}, "21": {"val": "บ", "pos": "screen"}, "26": {"val": "ช", "pos": "RESUS"}, "29": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 35, "name": "นายยุทธภูมิ นาคกระแสร์", "days": {"7": {"val": "บ", "pos": "CCC"}, "12": {"val": "ช", "pos": null}, "15": {"val": "บ", "pos": "EMS"}, "21": {"val": "บ", "pos": "CCC"}, "26": {"val": "ช", "pos": "Treatment"}, "29": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 36, "name": "นายธนภัทร ศิริเพ็ชร", "days": {"7": {"val": "บ", "pos": "CCC"}, "12": {"val": "ช", "pos": null}, "15": {"val": "บ", "pos": "EMS"}, "21": {"val": "บ", "pos": "CCC"}, "26": {"val": "ช", "pos": "screen"}, "29": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 37, "name": "นางสาวสิริกร พรหมกสิกร", "days": {"7": {"val": "บ", "pos": "EMS"}, "12": {"val": "ช", "pos": "Treatment"}, "15": {"val": "บ", "pos": "RESUS"}, "21": {"val": "บ", "pos": "EMS"}, "26": {"val": "ช", "pos": "CCC"}, "29": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 38, "name": "นางสาวภัทรวดี ถึงดี", "days": {"7": {"val": "บ", "pos": "EMS"}, "12": {"val": "ช", "pos": "screen"}, "15": {"val": "บ", "pos": "RESUS"}, "21": {"val": "บ", "pos": "EMS"}, "26": {"val": "ช", "pos": "CCC"}, "29": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 39, "name": "นางสาวลิลลี่ เจมส์ ทาวนเซนด์", "days": {"7": {"val": "บ", "pos": "RESUS"}, "12": {"val": "ช", "pos": null}, "15": {"val": "บ", "pos": "Treatment"}, "21": {"val": "บ", "pos": "RESUS"}, "26": {"val": "ช", "pos": "EMS"}, "29": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 40, "name": "นางสาวเปรมวดี ภูเต้านาค", "days": {"7": {"val": "บ", "pos": "RESUS"}, "12": {"val": "ช", "pos": null}, "15": {"val": "บ", "pos": "screen"}, "21": {"val": "บ", "pos": "RESUS"}, "26": {"val": "ช", "pos": "EMS"}, "29": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}], "month_num": 9, "month_name": "กันยายน", "year_ce": 2026, "day_meta": {"1": {"weekday": "อังคาร", "isToday": false}, "2": {"weekday": "พุธ", "isToday": false}, "3": {"weekday": "พฤหัสบดี", "isToday": false}, "4": {"weekday": "ศุกร์", "isToday": false}, "5": {"weekday": "เสาร์", "isToday": false}, "6": {"weekday": "อาทิตย์", "isToday": false}, "7": {"weekday": "จันทร์", "isToday": false}, "8": {"weekday": "อังคาร", "isToday": false}, "9": {"weekday": "พุธ", "isToday": false}, "10": {"weekday": "พฤหัสบดี", "isToday": false}, "11": {"weekday": "ศุกร์", "isToday": false}, "12": {"weekday": "เสาร์", "isToday": false}, "13": {"weekday": "อาทิตย์", "isToday": false}, "14": {"weekday": "จันทร์", "isToday": false}, "15": {"weekday": "อังคาร", "isToday": false}, "16": {"weekday": "พุธ", "isToday": false}, "17": {"weekday": "พฤหัสบดี", "isToday": false}, "18": {"weekday": "ศุกร์", "isToday": false}, "19": {"weekday": "เสาร์", "isToday": false}, "20": {"weekday": "อาทิตย์", "isToday": false}, "21": {"weekday": "จันทร์", "isToday": false}, "22": {"weekday": "อังคาร", "isToday": false}, "23": {"weekday": "พุธ", "isToday": false}, "24": {"weekday": "พฤหัสบดี", "isToday": false}, "25": {"weekday": "ศุกร์", "isToday": false}, "26": {"weekday": "เสาร์", "isToday": false}, "27": {"weekday": "อาทิตย์", "isToday": false}, "28": {"weekday": "จันทร์", "isToday": false}, "29": {"weekday": "อังคาร", "isToday": false}, "30": {"weekday": "พุธ", "isToday": false}}}, "ต.ค.69": {"title": "ตารางปฏิบัติงาน นิสิตมหาวิทยาลัยมหาสารคาม เดือน ตุลาคม 2569", "days": {"3": 1, "4": 2, "5": 3, "6": 4, "7": 5, "8": 6, "9": 7, "10": 8, "11": 9, "12": 10, "13": 11, "14": 12, "15": 13, "16": 14, "17": 15, "18": 16, "19": 17, "20": 18, "21": 19, "22": 20, "23": 21, "24": 22, "25": 23, "26": 24, "27": 25, "28": 26, "29": 27, "30": 28, "31": 29, "32": 30, "33": 31}, "students": [{"idx": 1, "name": "นายชลธาร สุท้าว", "days": {"4": {"val": "ช", "pos": "CCC"}, "8": {"val": "บ", "pos": "screen"}, "11": {"val": "บ", "pos": "screen"}, "15": {"val": "บ", "pos": "RESUS"}, "18": {"val": "บ", "pos": "EMS"}, "21": {"val": "สอบ Final", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 2, "name": "นางสาวมุทิตา เฝ้าทรัพย์", "days": {"4": {"val": "ช", "pos": "CCC"}, "8": {"val": "บ", "pos": "Treatment"}, "11": {"val": "บ", "pos": "Treatment"}, "15": {"val": "บ", "pos": "RESUS"}, "18": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 3, "name": "นางสาววาสนา กระมูล", "days": {"4": {"val": "ช", "pos": "EMS"}, "8": {"val": "บ", "pos": "CCC"}, "11": {"val": "บ", "pos": "CCC"}, "15": {"val": "บ", "pos": "screen"}, "18": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 4, "name": "นางสาวกุลปรียา ฟุ้งเฟื่อง", "days": {"4": {"val": "ช", "pos": "EMS"}, "8": {"val": "บ", "pos": "CCC"}, "11": {"val": "บ", "pos": "CCC"}, "15": {"val": "บ", "pos": "Treatment"}, "18": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 5, "name": "นายนิธิกร บริบาล", "days": {"4": {"val": "ช", "pos": null}, "8": {"val": "บ", "pos": "EMS"}, "11": {"val": "บ", "pos": "EMS"}, "15": {"val": "บ", "pos": "CCC"}, "18": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 6, "name": "นางสาวณัฏฐาภัค จีนศรีคง", "days": {"4": {"val": "ช", "pos": null}, "8": {"val": "บ", "pos": "EMS"}, "11": {"val": "บ", "pos": "EMS"}, "15": {"val": "บ", "pos": "CCC"}, "18": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 7, "name": "นางสาวปาลิดา อ่อนน้อม", "days": {"4": {"val": "ช", "pos": "screen"}, "8": {"val": "บ", "pos": "RESUS"}, "11": {"val": "บ", "pos": "RESUS"}, "15": {"val": "บ", "pos": "EMS"}, "18": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 8, "name": "นางสาวลภัสรดา สิงหนุต", "days": {"4": {"val": "ช", "pos": "Treatment"}, "8": {"val": "บ", "pos": "RESUS"}, "11": {"val": "บ", "pos": "RESUS"}, "15": {"val": "บ", "pos": "EMS"}, "18": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 9, "name": "นางสาววนิดา แสนมะฮุง", "days": {"1": {"val": "บ", "pos": "EMS"}, "4": {"val": "บ", "pos": "CCC"}, "9": {"val": "บ", "pos": "screen"}, "12": {"val": "บ", "pos": "RESUS"}, "17": {"val": "ช", "pos": "EMS"}, "19": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 10, "name": "นางสาวอสมาภรณ์ สอนลิลา", "days": {"1": {"val": "บ", "pos": "EMS"}, "4": {"val": "บ", "pos": "CCC"}, "9": {"val": "บ", "pos": "Treatment"}, "12": {"val": "บ", "pos": "RESUS"}, "17": {"val": "ช", "pos": "EMS"}, "19": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 11, "name": "นางสาวจิรัชญา วรรณศรี", "days": {"1": {"val": "บ", "pos": null}, "4": {"val": "บ", "pos": "EMS"}, "9": {"val": "บ", "pos": "CCC"}, "12": {"val": "บ", "pos": "screen"}, "17": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 12, "name": "นางสาวหทัยรัตน์ วงศ์ศรีทา", "days": {"1": {"val": "บ", "pos": null}, "4": {"val": "บ", "pos": "EMS"}, "9": {"val": "บ", "pos": "CCC"}, "12": {"val": "บ", "pos": "Treatment"}, "17": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 13, "name": "นางสาวปวีณา ประมูลทรัพย์", "days": {"1": {"val": "บ", "pos": "screen"}, "4": {"val": "บ", "pos": "RESUS"}, "9": {"val": "บ", "pos": "EMS"}, "12": {"val": "บ", "pos": "CCC"}, "17": {"val": "ช", "pos": "Treatment"}, "19": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 14, "name": "นายชัชพิสิฐ กะมะรี", "days": {"1": {"val": "บ", "pos": "Treatment"}, "4": {"val": "บ", "pos": "RESUS"}, "9": {"val": "บ", "pos": "EMS"}, "12": {"val": "บ", "pos": "CCC"}, "17": {"val": "ช", "pos": "screen"}, "19": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 15, "name": "นางสาวปณิตตรา ตาปราบ", "days": {"1": {"val": "บ", "pos": null}, "4": {"val": "บ", "pos": "screen"}, "9": {"val": "บ", "pos": "RESUS"}, "12": {"val": "บ", "pos": "EMS"}, "17": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 16, "name": "นางสาวชลธิชา สุทธิโสกเชือก", "days": {"1": {"val": "บ", "pos": null}, "4": {"val": "บ", "pos": "Treatment"}, "9": {"val": "บ", "pos": "RESUS"}, "12": {"val": "บ", "pos": "EMS"}, "17": {"val": "ช", "pos": null}, "19": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 1, "บ": 5, "ด": 0, "รวม": 6}}, {"idx": 17, "name": "นางสาวบัวบุษกร น้อยแสง", "days": {"2": {"val": "บ", "pos": "EMS"}, "5": {"val": "บ", "pos": "CCC"}, "10": {"val": "ช", "pos": "screen"}, "13": {"val": "ช", "pos": "RESUS"}, "16": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 18, "name": "นางสาวพิยดา ดวงแก้ว", "days": {"2": {"val": "บ", "pos": "EMS"}, "5": {"val": "บ", "pos": "CCC"}, "10": {"val": "ช", "pos": "Treatment"}, "13": {"val": "ช", "pos": "RESUS"}, "16": {"val": "บ", "pos": "EMS"}, "20": {"val": "บ", "pos": "CCC"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 19, "name": "นายจิรายุทธ คุ้มทอง", "days": {"2": {"val": "บ", "pos": null}, "5": {"val": "บ", "pos": "EMS"}, "10": {"val": "ช", "pos": "CCC"}, "13": {"val": "ช", "pos": "screen"}, "16": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 20, "name": "นายกิติพัฒน์ ใจใหญ่", "days": {"2": {"val": "บ", "pos": null}, "5": {"val": "บ", "pos": "EMS"}, "10": {"val": "ช", "pos": "CCC"}, "13": {"val": "ช", "pos": "Treatment"}, "16": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 21, "name": "นางสาวนิตยา นนทะ", "days": {"2": {"val": "บ", "pos": "screen"}, "5": {"val": "บ", "pos": "RESUS"}, "10": {"val": "ช", "pos": "EMS"}, "13": {"val": "ช", "pos": "CCC"}, "16": {"val": "บ", "pos": "Treatment"}, "20": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 22, "name": "นายอาทิตย์ สุวรรณบล", "days": {"2": {"val": "บ", "pos": "Treatment"}, "5": {"val": "บ", "pos": "RESUS"}, "10": {"val": "ช", "pos": "EMS"}, "13": {"val": "ช", "pos": "CCC"}, "16": {"val": "บ", "pos": "screen"}, "20": {"val": "บ", "pos": "RESUS"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 23, "name": "นายสุทธิราช ผางนิล", "days": {"2": {"val": "บ", "pos": null}, "5": {"val": "บ", "pos": "screen"}, "10": {"val": "ช", "pos": "RESUS"}, "13": {"val": "ช", "pos": "EMS"}, "16": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 24, "name": "นางสาวมลธิกานต์ มีหา", "days": {"2": {"val": "บ", "pos": null}, "5": {"val": "บ", "pos": "Treatment"}, "10": {"val": "ช", "pos": "RESUS"}, "13": {"val": "ช", "pos": "EMS"}, "16": {"val": "บ", "pos": null}, "20": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 2, "บ": 4, "ด": 0, "รวม": 6}}, {"idx": 25, "name": "นางสาวพลอยชมภู มนัสสีลา", "days": {"3": {"val": "ช", "pos": "EMS"}, "6": {"val": "บ", "pos": "CCC"}, "10": {"val": "บ", "pos": "screen"}, "13": {"val": "บ", "pos": "RESUS"}, "17": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 26, "name": "นายธนพงษ์ เนตรพันธ์", "days": {"3": {"val": "ช", "pos": "EMS"}, "6": {"val": "บ", "pos": "CCC"}, "10": {"val": "บ", "pos": "Treatment"}, "13": {"val": "บ", "pos": "RESUS"}, "17": {"val": "บ", "pos": "EMS"}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 27, "name": "นางสาวมนัสนันท์ เห็นถูก", "days": {"3": {"val": "ช", "pos": null}, "6": {"val": "บ", "pos": "EMS"}, "10": {"val": "บ", "pos": "CCC"}, "13": {"val": "บ", "pos": "screen"}, "17": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 28, "name": "นางสาวจันทร์จิรา พยัคฆา", "days": {"3": {"val": "ช", "pos": null}, "6": {"val": "บ", "pos": "EMS"}, "10": {"val": "บ", "pos": "CCC"}, "13": {"val": "บ", "pos": "Treatment"}, "17": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 29, "name": "นางสาวทิพวรรณ รางศรี", "days": {"3": {"val": "ช", "pos": "screen"}, "6": {"val": "บ", "pos": "RESUS"}, "10": {"val": "บ", "pos": "EMS"}, "13": {"val": "บ", "pos": "CCC"}, "17": {"val": "บ", "pos": "Treatment"}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 30, "name": "นางสาวนภัทร อินทร์สุข", "days": {"3": {"val": "ช", "pos": "Treatment"}, "6": {"val": "บ", "pos": "RESUS"}, "10": {"val": "บ", "pos": "EMS"}, "13": {"val": "บ", "pos": "CCC"}, "17": {"val": "บ", "pos": "screen"}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 31, "name": "นายวรเมธ สุวรรณชนะ", "days": {"3": {"val": "ช", "pos": null}, "6": {"val": "บ", "pos": "screen"}, "10": {"val": "บ", "pos": "RESUS"}, "13": {"val": "บ", "pos": "EMS"}, "17": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 32, "name": "นางสาวชุติกาญจน์ พารารัมย์", "days": {"3": {"val": "ช", "pos": null}, "6": {"val": "บ", "pos": "Treatment"}, "10": {"val": "บ", "pos": "RESUS"}, "13": {"val": "บ", "pos": "EMS"}, "17": {"val": "บ", "pos": null}}, "summary": {"ช": 1, "บ": 4, "ด": 0, "รวม": 5}}, {"idx": 33, "name": "นายกฤษฎา ม้วนโคกสูง", "days": {"3": {"val": "บ", "pos": "EMS"}, "7": {"val": "บ", "pos": "CCC"}, "11": {"val": "ช", "pos": "screen"}, "14": {"val": "บ", "pos": "RESUS"}, "18": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}, {"idx": 34, "name": "นายยุทธวีร์ ปาละนันท์", "days": {"3": {"val": "บ", "pos": "EMS"}, "7": {"val": "บ", "pos": "CCC"}, "11": {"val": "ช", "pos": "Treatment"}, "14": {"val": "บ", "pos": "RESUS"}, "18": {"val": "ช", "pos": "EMS"}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}, {"idx": 35, "name": "นายยุทธภูมิ นาคกระแสร์", "days": {"3": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "EMS"}, "11": {"val": "ช", "pos": "CCC"}, "14": {"val": "บ", "pos": "screen"}, "18": {"val": "ช", "pos": null}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}, {"idx": 36, "name": "นายธนภัทร ศิริเพ็ชร", "days": {"3": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "EMS"}, "11": {"val": "ช", "pos": "CCC"}, "14": {"val": "บ", "pos": "Treatment"}, "18": {"val": "ช", "pos": null}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}, {"idx": 37, "name": "นางสาวสิริกร พรหมกสิกร", "days": {"3": {"val": "บ", "pos": "screen"}, "7": {"val": "บ", "pos": "RESUS"}, "11": {"val": "ช", "pos": "EMS"}, "14": {"val": "บ", "pos": "CCC"}, "18": {"val": "ช", "pos": "Treatment"}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}, {"idx": 38, "name": "นางสาวภัทรวดี ถึงดี", "days": {"3": {"val": "บ", "pos": "Treatment"}, "7": {"val": "บ", "pos": "RESUS"}, "11": {"val": "ช", "pos": "EMS"}, "14": {"val": "บ", "pos": "CCC"}, "18": {"val": "ช", "pos": "screen"}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}, {"idx": 39, "name": "นางสาวลิลลี่ เจมส์ ทาวนเซนด์", "days": {"3": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "screen"}, "11": {"val": "ช", "pos": "RESUS"}, "14": {"val": "บ", "pos": "EMS"}, "18": {"val": "ช", "pos": null}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}, {"idx": 40, "name": "นางสาวเปรมวดี ภูเต้านาค", "days": {"3": {"val": "บ", "pos": null}, "7": {"val": "บ", "pos": "Treatment"}, "11": {"val": "ช", "pos": "RESUS"}, "14": {"val": "บ", "pos": "EMS"}, "18": {"val": "ช", "pos": null}}, "summary": {"ช": 2, "บ": 3, "ด": 0, "รวม": 5}}], "month_num": 10, "month_name": "ตุลาคม", "year_ce": 2026, "day_meta": {"1": {"weekday": "พฤหัสบดี", "isToday": false}, "2": {"weekday": "ศุกร์", "isToday": false}, "3": {"weekday": "เสาร์", "isToday": false}, "4": {"weekday": "อาทิตย์", "isToday": false}, "5": {"weekday": "จันทร์", "isToday": false}, "6": {"weekday": "อังคาร", "isToday": false}, "7": {"weekday": "พุธ", "isToday": false}, "8": {"weekday": "พฤหัสบดี", "isToday": false}, "9": {"weekday": "ศุกร์", "isToday": false}, "10": {"weekday": "เสาร์", "isToday": false}, "11": {"weekday": "อาทิตย์", "isToday": false}, "12": {"weekday": "จันทร์", "isToday": false}, "13": {"weekday": "อังคาร", "isToday": false}, "14": {"weekday": "พุธ", "isToday": false}, "15": {"weekday": "พฤหัสบดี", "isToday": false}, "16": {"weekday": "ศุกร์", "isToday": false}, "17": {"weekday": "เสาร์", "isToday": false}, "18": {"weekday": "อาทิตย์", "isToday": false}, "19": {"weekday": "จันทร์", "isToday": false}, "20": {"weekday": "อังคาร", "isToday": false}, "21": {"weekday": "พุธ", "isToday": false}, "22": {"weekday": "พฤหัสบดี", "isToday": false}, "23": {"weekday": "ศุกร์", "isToday": false}, "24": {"weekday": "เสาร์", "isToday": false}, "25": {"weekday": "อาทิตย์", "isToday": false}, "26": {"weekday": "จันทร์", "isToday": false}, "27": {"weekday": "อังคาร", "isToday": false}, "28": {"weekday": "พุธ", "isToday": false}, "29": {"weekday": "พฤหัสบดี", "isToday": false}, "30": {"weekday": "ศุกร์", "isToday": false}, "31": {"weekday": "เสาร์", "isToday": false}}}};
+
+</script>
+<script>
+(function(){
+  const SCHED = window.__SCHED__;
+  const DUTY = window.__DUTY__;
+  
+  // อัพเดทวันที่อัตโนมัติตามเวลาระบบปัจจุบัน
+  const now = new Date();
+  const TODAY = {
+    y: now.getFullYear() + 543, // แปลงเป็น พศ.
+    m: now.getMonth() + 1,      // เดือน (1-12)
+    d: now.getDate()            // วันที่ (1-31)
+  };
+  
+  const MY_NAME = "นายธนพงษ์ เนตรพันธ์";
+  const POS_LABELS = {EMS:'EMS', RESUS:'RESUS', Treatment:'Treatment', screen:'screen', CCC:'CCC'};
+
+  // สร้างข้อความวันที่แบบอัตโนมัติ
+  const monthNames = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน',
+                      'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  const monthNameEn = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.',
+                       'ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  const monthTh = monthNames[TODAY.m - 1];
+  const monthShort = monthNameEn[TODAY.m - 1];
+  const yearBE = TODAY.y;
+  const yearAD = TODAY.y - 543;
+  
+  document.getElementById('todayBadge').textContent =
+    `วันนี้ ${TODAY.d} ${monthTh} ${yearBE} (${TODAY.d} ${monthShort} ${yearAD})`;
+
+  // ---------- TAB SWITCH ----------
+  const tabSchedBtn = document.getElementById('tabSchedBtn');
+  const tabDutyBtn = document.getElementById('tabDutyBtn');
+  const viewSched = document.getElementById('viewSched');
+  const viewDuty = document.getElementById('viewDuty');
+  tabSchedBtn.onclick = () => {
+    tabSchedBtn.classList.add('active'); tabDutyBtn.classList.remove('active');
+    viewSched.classList.add('active'); viewDuty.classList.remove('active');
+  };
+  tabDutyBtn.onclick = () => {
+    tabDutyBtn.classList.add('active'); tabSchedBtn.classList.remove('active');
+    viewDuty.classList.add('active'); viewSched.classList.remove('active');
+  };
+
+  // ================= SCHEDULE RENDER =================
+  const monthOrder = [];
+  SCHED.forEach(d => { if(!monthOrder.includes(d.month)) monthOrder.push(d.month); });
+
+  const schedMonthNav = document.getElementById('schedMonthNav');
+  let curSchedMonth = monthOrder[0];
+
+  function isTodaySched(monthName, date){
+    const monthNumMap = {'กรกฎาคม':7,'สิงหาคม':8,'กันยายน':9,'ตุลาคม':10,'พฤศจิกายน':11};
+    return monthNumMap[monthName]===TODAY.m && date===TODAY.d;
+  }
+
+  function renderSchedMonthNav(){
+    schedMonthNav.innerHTML = '';
+    monthOrder.forEach(m => {
+      const b = document.createElement('button');
+      b.textContent = m;
+      if(m===curSchedMonth) b.classList.add('active');
+      b.onclick = () => { curSchedMonth = m; renderSchedMonthNav(); renderSchedContent(); };
+      schedMonthNav.appendChild(b);
+    });
+  }
+
+  function renderSchedContent(){
+    const container = document.getElementById('schedContent');
+    container.innerHTML = '';
+    const days = SCHED.filter(d => d.month === curSchedMonth);
+    let curWeek = null;
+    let weekWrap = null;
+    days.forEach(d => {
+      if(d.week !== curWeek){
+        curWeek = d.week;
+        const block = document.createElement('div');
+        block.className = 'week-block';
+        const label = document.createElement('div');
+        label.className = 'week-label';
+        label.textContent = 'สัปดาห์ ' + d.week.replace('wk','');
+        block.appendChild(label);
+        container.appendChild(block);
+        weekWrap = block;
+      }
+      const card = document.createElement('div');
+      const today = isTodaySched(d.month, d.date);
+      let cls = 'day-card';
+      const hasReal = d.sessions.some(s => s.time);
+      const isAllDayNote = d.sessions.length && !hasReal;
+      const noteText = isAllDayNote ? d.sessions[0].topic : '';
+      if(isAllDayNote && /หยุด|วันเข้าพรรษา|วันอาสาฬหบูชา|เฉลิมพระชนมพรรษา|นวมินทร|ปิยมหาราช|ปิดภาคเรียน|เปิดภาคเรียน/.test(noteText)) cls += ' is-holiday';
+      else if(isAllDayNote && /สอบ|MCQ|OSCE|Final|Midterm/i.test(noteText)) cls += ' is-exam';
+      if(d.sessions.length===0) cls += ' is-empty';
+      if(today) cls += ' is-today';
+      card.className = cls;
+
+      const head = document.createElement('div');
+      head.className = 'day-head';
+      head.innerHTML = '<span class="day-date">'+d.date+' '+curSchedMonth+'</span><span class="day-weekday">วัน'+d.day+'</span>' + (today ? '<span class="today-pill">วันนี้</span>' : '');
+      card.appendChild(head);
+
+      if(d.sessions.length === 0){
+        const p = document.createElement('div');
+        p.className = 'empty-note';
+        p.textContent = 'ไม่มีกิจกรรมระบุ';
+        card.appendChild(p);
+      } else if(isAllDayNote){
+        const p = document.createElement('div');
+        p.className = 'allday-note';
+        p.textContent = noteText.trim();
+        card.appendChild(p);
+      } else {
+        d.sessions.forEach(s => {
+          const row = document.createElement('div');
+          row.className = 'session-row';
+          const time = document.createElement('div');
+          time.className = 'session-time';
+          time.textContent = s.time || '';
+          const body = document.createElement('div');
+          body.className = 'session-body';
+          const topic = document.createElement('div');
+          topic.className = 'topic';
+          topic.textContent = (s.topic||'').trim();
+          body.appendChild(topic);
+          if(s.instr){
+            const instr = document.createElement('div');
+            instr.className = 'instr';
+            instr.textContent = s.instr.trim();
+            body.appendChild(instr);
+          }
+          row.appendChild(time);
+          row.appendChild(body);
+          card.appendChild(row);
+        });
+      }
+      weekWrap.appendChild(card);
+    });
+  }
+
+  renderSchedMonthNav();
+  renderSchedContent();
+
+  // ================= DUTY RENDER (ธนพงษ์ only) =================
+  const dutyLegend = document.getElementById('dutyLegend');
+  const legendColors = {
+    EMS: '#e34848', RESUS:'#3f6fd1', Treatment:'#b8971f', screen:'#c8781f', CCC:'#3f8b52'
+  };
+  Object.keys(legendColors).forEach(k => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = '<span class="swatch" style="background:'+legendColors[k]+'"></span>' + k;
+    dutyLegend.appendChild(item);
+  });
+
+  const dutySheets = Object.keys(DUTY);
+
+  function renderDutySummary(){
+    const wrap = document.getElementById('dutySummary');
+    wrap.innerHTML = '';
+    let totChа=0, totBa=0, totDuk=0, totRuam=0;
+    dutySheets.forEach(s => {
+      const info = DUTY[s];
+      const me = info.students.find(st => st.name === MY_NAME);
+      if(!me) return;
+      const sm = me.summary;
+      totChа += sm['ช']||0; totBa += sm['บ']||0; totDuk += sm['ด']||0; totRuam += sm['รวม']||0;
+      const card = document.createElement('div');
+      card.className = 'summary-chip';
+      card.innerHTML = '<div class="sc-month">'+info.month_name+'</div>'+
+        '<div class="sc-nums"><span>ช '+(sm['ช']??0)+'</span><span>บ '+(sm['บ']??0)+'</span><span>ด '+(sm['ด']??0)+'</span><span class="sc-total">รวม '+(sm['รวม']??0)+'</span></div>';
+      wrap.appendChild(card);
+    });
+    const totalCard = document.createElement('div');
+    totalCard.className = 'summary-chip sc-grand';
+    totalCard.innerHTML = '<div class="sc-month">รวมทั้งหมด</div>'+
+      '<div class="sc-nums"><span>ช '+totChа+'</span><span>บ '+totBa+'</span><span>ด '+totDuk+'</span><span class="sc-total">รวม '+totRuam+'</span></div>';
+    wrap.appendChild(totalCard);
+  }
+
+  function renderDutyList(){
+    const container = document.getElementById('dutyList');
+    container.innerHTML = '';
+    const monthNumMap = {'กรกฎาคม':7,'สิงหาคม':8,'กันยายน':9,'ตุลาคม':10,'พฤศจิกายน':11,'ธันวาคม':12,
+                         'มกราคม':1,'กุมภาพันธ์':2,'มีนาคม':3,'เมษายน':4,'พฤษภาคม':5,'มิถุนายน':6};
+    dutySheets.forEach(sheetKey => {
+      const info = DUTY[sheetKey];
+      info.month_num = monthNumMap[info.month_name] || 0; // เพิ่ม month_num ถ้าไม่มี
+      const me = info.students.find(st => st.name === MY_NAME);
+      const block = document.createElement('div');
+      block.className = 'week-block';
+      const label = document.createElement('div');
+      label.className = 'week-label';
+      label.textContent = info.month_name + ' 2569';
+      block.appendChild(label);
+
+      if(!me || Object.keys(me.days).length===0){
+        const empty = document.createElement('div');
+        empty.className = 'empty-note';
+        empty.textContent = 'ไม่มีเวรในเดือนนี้';
+        block.appendChild(empty);
+        container.appendChild(block);
+        return;
+      }
+
+      const dayNums = Object.keys(me.days).map(Number).sort((a,b)=>a-b);
+      dayNums.forEach(dn => {
+        const cell = me.days[dn];
+        const meta = info.day_meta[dn] || {};
+        // คำนวณ isToday จากข้อมูล TODAY ที่อัพเดทอัตโนมัติ
+        const isToday = (info.month_num === TODAY.m && dn === TODAY.d);
+        const card = document.createElement('div');
+        card.className = 'day-card duty-card' + (isToday ? ' is-today' : '');
+        const shiftLabel = cell.val === 'ช' ? 'เวรเช้า' : (cell.val === 'บ' ? 'เวรบ่าย' : (cell.val === 'ด' ? 'เวรดึก' : cell.val));
+        const posBadge = cell.pos ? '<span class="pos-badge shift-'+cell.pos+'">'+cell.pos+'</span>' : '';
+        card.innerHTML =
+          '<div class="day-head">'+
+            '<span class="day-date">'+dn+' '+info.month_name+'</span>'+
+            '<span class="day-weekday">วัน'+(meta.weekday||'')+'</span>'+
+            (isToday ? '<span class="today-pill">วันนี้</span>' : '') +
+          '</div>'+
+          '<div class="duty-detail"><span class="shift-name">'+shiftLabel+' ('+cell.val+')</span>'+posBadge+'</div>';
+        block.appendChild(card);
+      });
+      container.appendChild(block);
+    });
+  }
+
+  renderDutySummary();
+  renderDutyList();
+
+  // ---------- BACK TO TOP ----------
+  const toTopBtn = document.getElementById('toTopBtn');
+  function updateToTopVisibility(){
+    if(window.scrollY > 320) toTopBtn.classList.add('show');
+    else toTopBtn.classList.remove('show');
+  }
+  window.addEventListener('scroll', updateToTopVisibility, {passive:true});
+  updateToTopVisibility();
+  toTopBtn.addEventListener('click', () => {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+})();
+</script>
+</body>
+</html>
