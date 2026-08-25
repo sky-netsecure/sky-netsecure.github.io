@@ -159,7 +159,7 @@
   }
   .day-card.is-holiday{border-left-color:#b0463f;}
   .day-card.is-exam{border-left-color:var(--amber);}
-  .day-card.is-empty{opacity:.45;}
+  .day-card.is-empty{opacity:.5;}
   .day-card.is-today{
     border-left-color:var(--today);
     box-shadow:0 0 0 2px var(--today) inset;
@@ -272,110 +272,7 @@
     border-radius:6px;
     background:var(--panel);
   }
-  table.duty{
-    border-collapse:collapse;
-    font-size:12.5px;
-    white-space:nowrap;
-  }
-  table.duty th, table.duty td{
-    border:1px solid var(--line);
-    padding:5px 7px;
-    text-align:center;
-  }
-  table.duty thead th{
-    background:var(--teal-deep);
-    color:#fff;
-    font-weight:500;
-    position:sticky;
-    top:0;
-    z-index:2;
-  }
-  table.duty thead tr.weekday-row th{
-    background:var(--teal);
-    font-size:10.5px;
-    font-weight:400;
-  }
-  table.duty td.name-cell, table.duty th.name-cell{
-    position:sticky;
-    left:0;
-    background:var(--panel);
-    text-align:left;
-    font-weight:500;
-    z-index:1;
-    box-shadow:2px 0 0 var(--line);
-    min-width:190px;
-  }
-  table.duty thead th.name-cell{
-    background:var(--teal-deep);
-    color:#fff;
-    z-index:3;
-  }
-  table.duty td.idx-cell, table.duty th.idx-cell{
-    position:sticky;
-    left:0;
-    background:var(--panel);
-    z-index:1;
-    color:var(--muted);
-  }
-  table.duty thead th.idx-cell{background:var(--teal-deep);color:#fff;z-index:3;}
-  table.duty td.today-col, table.duty th.today-col{
-    box-shadow:inset 0 0 0 2px var(--today);
-  }
-  tr.me-row td{background:#fff7ea;}
-  tr.me-row td.name-cell{background:#fdeccb;font-weight:700;}
 
-  td.shift-cell{font-weight:600;}
-  td.shift-EMS{background:var(--pos-ems-bg);color:var(--pos-ems);}
-  td.shift-RESUS{background:var(--pos-resus-bg);color:var(--pos-resus);}
-  td.shift-Treatment{background:var(--pos-treatment-bg);color:var(--pos-treatment);}
-  td.shift-screen{background:var(--pos-screen-bg);color:var(--pos-screen);}
-  td.shift-CCC{background:var(--pos-ccc-bg);color:var(--pos-ccc);}
-  td.shift-note{
-    font-size:10.5px;
-    color:var(--muted);
-    font-weight:400;
-    white-space:normal;
-    max-width:90px;
-  }
-  td.summary-cell{
-    background:#f1efe6;
-    font-weight:600;
-    font-family:'JetBrains Mono',monospace;
-  }
-
-  .duty-controls{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:14px;
-  }
-  .search-box{
-    font-family:'Sarabun',sans-serif;
-    font-size:13.5px;
-    padding:8px 12px;
-    border:1px solid var(--line);
-    border-radius:20px;
-    width:220px;
-    background:#fff;
-  }
-  .search-box:focus{outline:2px solid var(--teal);outline-offset:1px;}
-
-  footer.note{
-    margin-top:30px;
-    font-size:12px;
-    color:var(--muted);
-    border-top:1px solid var(--line);
-    padding-top:12px;
-  }
-
-  @media (max-width:640px){
-    .app{padding:18px 12px 60px;}
-    .tabbar button{padding:9px 14px;font-size:13.5px;}
-    .session-row{flex-direction:column;gap:2px;}
-    .session-time{min-width:0;}
-  }
   .duty-summary{
     display:flex;
     flex-wrap:wrap;
@@ -429,7 +326,23 @@
   .pos-badge.shift-Treatment{background:var(--pos-treatment-bg);color:var(--pos-treatment);}
   .pos-badge.shift-screen{background:var(--pos-screen-bg);color:var(--pos-screen);}
   .pos-badge.shift-CCC{background:var(--pos-ccc-bg);color:var(--pos-ccc);}
-    .to-top-btn{
+
+  footer.note{
+    margin-top:30px;
+    font-size:12px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    padding-top:12px;
+  }
+
+  @media (max-width:640px){
+    .app{padding:18px 12px 60px;}
+    .tabbar button{padding:9px 14px;font-size:13.5px;}
+    .session-row{flex-direction:column;gap:2px;}
+    .session-time{min-width:0;}
+  }
+
+  .to-top-btn{
     position:fixed;
     right:18px;
     bottom:24px;
@@ -510,7 +423,162 @@
 </button>
 
 <script>
-window.__SCHED__ = [{"month": "กรกฎาคม", "week": "wk1", "date": 1, "day": "พุธ", "sessions": [{"time": null, "topic": "ปฐมนิเทศ ห้องประชุมสุจินต์", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk1", "date": 2, "day": "พฤหัสบดี", "sessions": []}, {"month": "กรกฎาคม", "week": "wk1", "date": 3, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: EMS Operation", "instr": "นพ.วีรศักดิ์ (ห้องประชุม EOC)"}, {"time": "13:00-16:00", "topic": "M: Dispatch Operation", "instr": "นพ.วีรศักดิ์ (ห้องประชุม EOC)"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 6, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "M: Pre-Hospital Airway management (Lecture)", "instr": "นพ.ไชยโย (ห้องสุจินต์)"}, {"time": "13:00-17:00", "topic": "Pre-Hospital Airway management (Lab)", "instr": "นพ.ไชยโย/ไปรมาศ/นิรัติศัย/R2 พิชญานิน"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 7, "day": "อังคาร", "sessions": [{"time": "8:00-12:00", "topic": "D: Introduction to disaster/Disaster prevention and  preparedness (Lecture)", "instr": "นพ.รัฐระวี (omega one)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ แก่ผู้บาดเจ็บจากอุบัติเหตุการกระแทกการฉีกขาด (lecture)", "instr": "นพ.วีรศักดิ์ omega one"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 8, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: ความหมายของนิติเวชศาสตร์ (Lec)   F: บทบาทหน้าที่ของ นฉพ.ในงานนิติเวชศาสตร์ (Lec)", "instr": "นพ.ภูเบศ   (omega two)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บจากวัตถุหนักหักทับร่างกาย (Lecture)", "instr": "นพ.กิตติชัย  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 9, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Mass casualty incident 1-2 CSCA  (Lecture)", "instr": "นพ.วีรศักดิ์ omega one"}, {"time": "15:00-17:00", "topic": "D: Mass casualty incident Treatment Transport (Lecture)", "instr": "นพ.รัฐระวี (omega one)"}]}, {"month": "กรกฎาคม", "week": "wk2", "date": 10, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ แก่ผู้มีภาวะฉุกเฉินทางโรคติดต่อ,ติดเชื้ออุบัติใหม่ (Lecture)", "instr": "นพ.วีรศักดิ์  (omega one)"}, {"time": "13:00-16:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ ผู้มีภาวะฉุกเฉินจากการได้รับพิษจากสิ่งแวดล้อม (Lecture )", "instr": "นพ รัฐพล  (omega one)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 13, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Adult (Lecture)", "instr": "พญ.พิมพ์ชนก (ประมุข)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Adult (Lab)", "instr": "พญ.พิมพ์ชนก/พงษ์พิสุทธิ์/อัญชนา/R2 ธนวรรณ"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 14, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Risk management", "instr": "นพ.ภูเบศ  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 15, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: หลักการชันสูตรพลิกศพ / การดูแลพยานหลักฐาน ณ จุดเกิดเหตุ (Lecture)", "instr": "นพ.ภูเบศ  (omega two)"}, {"time": "13:00-16:00", "topic": "T: ภาวะฉุกเฉินทางการแพทย์ จากการบาดเจ็บ กลไกการบาดเจ็บ Topic present.", "instr": "พญ ณญาวดี  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 16, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-14:00", "topic": "D: triage (Lecture)", "instr": "Paramedic มานพ (EOC,T1, สนง)"}, {"time": "14:00-17:00", "topic": "D: triage (Workshop)", "instr": "มานพ/ราเมศร์/เบญจมาศ/สุดารัตน์ (EOC,T1, สนง)"}]}, {"month": "กรกฎาคม", "week": "wk3", "date": 17, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: review AMLS (Lecture)", "instr": "นพ.ไชยโย  (omega two)"}, {"time": "13:00-16:00", "topic": "M: AMLS work shop", "instr": "นพ.ไชยโย/ สุดารัตน์/นนทิชานันท์/R3 พิมพ์ดาว (EOC,T1, สนง)"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 20, "day": "จันทร์", "sessions": [{"time": "8:00-17:00", "topic": "Advance Life Support", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 21, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บที่ติดอยู่ในซากปรักหักพังหลุมลึกตึกถล่ม (Lecture)", "instr": "นพ.วีรศักดิ์  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 22, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การดูแลบาดแผล (Lecture)", "instr": "นพ.ภูเบศ  (omega one)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บเลือดออกและช็อค topic present.", "instr": "พญ.ณญาวดี  (omega one)"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 23, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Tactical EMS (Lecture)", "instr": "นพ.วีรศักดิ์  (omega two)"}, {"time": "15:00-17:00", "topic": "D: Fast Tract in EMS", "instr": "นพ.วีรศักดิ์"}]}, {"month": "กรกฎาคม", "week": "wk4", "date": 24, "day": "ศุกร์", "sessions": [{"time": "13:00-16:00", "topic": "M: Topic presentation \n MI", "instr": "นพ.ภูเบศ  (omega two)"}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 27, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: PHTLS 1 (Lecture)", "instr": "นพ.กิตติชัย   (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: Workshop PHTLS 1", "instr": "นพ.กิตติชัย/พงษ์พิสุทธิ์/เบญจมาศ/R2 พอเพียง (ห้องสุจินต์)"}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 28, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันเฉลิมพระชนมพรรษา ร.10", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 29, "day": "พุธ", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ (วันอาสาฬหบูชา)", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 30, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ (วันเข้าพรรษา)", "instr": null}]}, {"month": "กรกฎาคม", "week": "wk5", "date": 31, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ \nแก่ผู้มีภาวะฉุกเฉิน ผู้หมดสติ (Lecture)", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "13:00-16:00", "topic": "M: Topic presentation \n Stroke", "instr": "พญ.รัตติยา (omega two)"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 3, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูง โดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Neonatal (Lecture)", "instr": "นพ.ไชยโย (omega two)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูง โดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Neonatal (Lab)", "instr": "นพ.ไชยโย/ไปรมาศ/นนทิชานันท์/R2 ธัญกมล"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 4, "day": "อังคาร", "sessions": [{"time": "8:00-12:00", "topic": "D: MCI Scene design workshop (ห้องศูนย์การเรียนรู้)", "instr": "นพ.วีรศักดิ์/รัฐระวี/นฉพ.มานพ/นฉพ.ราเมศ/นิรัติศัย/R2 จิรเมธ"}, {"time": "13:00-16:00", "topic": "T: Topic presentation: Head and spinal trauma", "instr": "นพ.ปุณยวัจน์ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 5, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การตัดสินการตาย (Lecture)", "instr": "นพ.ภูเบศ (omega two)"}, {"time": "13:00-16:00", "topic": "T: case discusion1", "instr": "นพ.ไชยโย (EOC)"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 6, "day": "พฤหัสบดี", "sessions": [{"time": "8:00-12:00", "topic": "ALS: ใช้อุปกรณ์เปิดทางเดินหายใจขั้นสูง เครื่องช่วยหายใจแบบอัตโนมัติและแบบใช้มือ Pediatric (Lecture)", "instr": "พญ.ณญาวดี (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: ใช้อุปกรณ์เปิดทางเดินหายใจขั้นสูง เครื่องช่วยหายใจแบบอัตโนมัติและแบบใช้มือ Pediatric (Lab)", "instr": "พญ.ณญาวดี/ไปรมาศ/.นฉพ.อัญชนา/R"}]}, {"month": "สิงหาคม", "week": "wk6", "date": 7, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ\nผู้มีภาวะฉุกเฉินทางตา  (Lecture)", "instr": "นพ.ไชยโย (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion1", "instr": "นพ.กิตติชัย (omega two)"}]}, {"month": "สิงหาคม", "week": "wk7", "date": 10, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: การดูแลและบำรุงรักษาอุปกรณ์ช่วยฟื้นคืนชีพขั้นสูงฝึกปฏิบัติการช่วยฟื้นคืน (Lecture)", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: การดูแลและบำรุงรักษาอุปกรณ์ช่วยฟื้นคืนชีพขั้นสูงฝึกปฏิบัติการช่วยฟื้นคืน (Lab)", "instr": "นพ.วีรศักดิ์/.ชาติชาย../นิรัติศัย"}]}, {"month": "สิงหาคม", "week": "wk7", "date": 11, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "M: Safety Transfer (Lecture)", "instr": "พว.สมพร หงษ์เวียง  (EOC)"}]}, {"month": "สิงหาคม", "week": "wk7", "date": 12, "day": "พุธ", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันเฉลิมพระชนมพรรษา ร.10", "instr": null}]}, {"month": "สิงหาคม", "week": "wk7", "date": 13, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: ICS", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: Command control in MIMMs protocol", "instr": "นพ.ภูเบศ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk7", "date": 14, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มี\nภาวะฉุกเฉินทาง หู – คอ – จมูก (Lecture)", "instr": "นพ.รัฐพล (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion2", "instr": "พญ.รัตติยา (omega two)"}]}, {"month": "สิงหาคม", "week": "wk8", "date": 17, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Pediatric (Lecture)", "instr": "พญ.ณญาวดี (omega two)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Pediatric (Lab)", "instr": "พญ.ณญาวดี/ไปรมาศ/ชณัฎฎา/R3 พิมพ์ดาว"}]}, {"month": "สิงหาคม", "week": "wk8", "date": 18, "day": "อังคาร", "sessions": []}, {"month": "สิงหาคม", "week": "wk8", "date": 19, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การวิเคราะห์สาเหตุการตาย (Lecture)", "instr": "นพ.ภูเบศ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk8", "date": 20, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "Midterm MCQ ห้องสุจินต์", "instr": null}]}, {"month": "สิงหาคม", "week": "wk8", "date": 21, "day": "ศุกร์", "sessions": [{"time": null, "topic": "Midterm MCQ ห้องประมุข", "instr": null}]}, {"month": "สิงหาคม", "week": "wk9", "date": 24, "day": "จันทร์", "sessions": []}, {"month": "สิงหาคม", "week": "wk9", "date": 25, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Topic presentation:  thoracic injury", "instr": "พญ.พิมพ์ชนก (omega two)"}]}, {"month": "สิงหาคม", "week": "wk9", "date": 26, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การส่งศพและอุปกรณ์ที่ใช้ในงานนิติเวชศาสตร์ (Lecture)", "instr": "นพ.เศรษฐพงษ์ (omega two)"}, {"time": "13:00-16:00", "topic": "T: case discusion2", "instr": "นพ.ปุณยวัจน์ (omega two)"}]}, {"month": "สิงหาคม", "week": "wk9", "date": 27, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: HAZMAT  (Lecture)", "instr": "พญ.พิมพ์ชนก (omega two)"}]}, {"month": "สิงหาคม", "week": "wk9", "date": 28, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มีภาวะฉุกเฉินจากการได้รับสารพิษหรือยาเกินขนาด (Lecture)", "instr": "พญ.พิมพ์ชนก (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion3", "instr": "นพ.ไชยโย (omega two)"}]}, {"month": "สิงหาคม", "week": "wk10", "date": 31, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: การกระตุ้นหัวใจด้วยไฟฟ้าแบบคาร์ดิโอเวอร์ชั่น+การใช้เครื่องคุมจังหวะการเต้นของหัวใจ Adult (Lecture)", "instr": "พญ.พิมพ์ชนก (ประมุข)"}, {"time": "13:00-17:00", "topic": "ALS: การกระตุ้นหัวใจด้วยไฟฟ้าแบบคาร์ดิโอเวอร์ชั่น+การใช้เครื่องคุมจังหวะการเต้นของหัวใจ Adult (Lab)", "instr": "พญ.ณญาวดี/นฉพ ชาติชาย/นฉพ.นนทิชานันท์/R2 ปุณิกา"}]}, {"month": "กันยายน", "week": "wk10", "date": 1, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Topic presentation: abdominal injury", "instr": "นพ.ปุณยวัจน์"}]}, {"month": "กันยายน", "week": "wk10", "date": 2, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การเก็บวัตถุพยานเพื่อส่งตรวจ (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion3", "instr": "นพ.กิตติชัย"}]}, {"month": "กันยายน", "week": "wk10", "date": 3, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-14:00", "topic": "D: ERG  (Lecture)", "instr": "Paramedic มานพ"}, {"time": "14:00-16:00", "topic": "D: Workshop in ERG", "instr": "Paramedic /สุดารัตน์/มานพ"}]}, {"month": "กันยายน", "week": "wk10", "date": 4, "day": "ศุกร์", "sessions": [{"time": null, "topic": "สอบซ่อม MCQ", "instr": null}]}, {"month": "กันยายน", "week": "wk11", "date": 7, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: PHTLS 2 (Lecture)", "instr": "นพ.กิตติชัย"}, {"time": "13:00-17:00", "topic": "ALS: Workshop  PHTLS 2", "instr": "นพ.กิตติชัย/เบญจมาศ/สุดารัตน์/R3 ทิวา"}]}, {"month": "กันยายน", "week": "wk11", "date": 8, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บตกจากที่สูง topic present.", "instr": "นพ.กิตติชัย"}]}, {"month": "กันยายน", "week": "wk11", "date": 9, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: นิติเวชศาสตร์คลินิก (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion4", "instr": "พญ.ณญาวดี"}]}, {"month": "กันยายน", "week": "wk11", "date": 10, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: Mass gathering (Lecture)", "instr": "นพ.วีรศักดิ์"}]}, {"month": "กันยายน", "week": "wk11", "date": 11, "day": "ศุกร์", "sessions": [{"time": "8:00-17:00", "topic": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์", "instr": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์"}]}, {"month": "กันยายน", "week": "wk12", "date": 14, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "\"T: USG workshop                \"", "instr": "อจ.ปิยฉัตร/นฉพ.นิรัตศัย../พงศ์พิสุทธิ์../R2 พอเพียง"}, {"time": "13:00-16:00", "topic": "T: concept of USG (lecture)", "instr": "อจ.ปิยฉัตร"}]}, {"month": "กันยายน", "week": "wk12", "date": 15, "day": "อังคาร", "sessions": []}, {"month": "กันยายน", "week": "wk12", "date": 16, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: หลักการเขียนรายงานผลการปฏิบัติงาน และการชันสูตร (Lecture)", "instr": "นพ.ภูเบศ"}]}, {"month": "กันยายน", "week": "wk12", "date": 17, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Disaster management 1 (Lecture)", "instr": "นพ.รัฐระวี"}, {"time": "15:00-17:00", "topic": "D: Disaster management 2 (Lecture)", "instr": "นพ.รัฐระวี"}]}, {"month": "กันยายน", "week": "wk12", "date": 18, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: ภาวะฉุกเฉินจากปัญหาทางพฤติกรรมและจิตเวชการเจรจาต่อรอง (Lecture)", "instr": "นพ.ไชยโย"}]}, {"month": "กันยายน", "week": "wk13", "date": 21, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS:  ACLS (sim)  นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา", "instr": "ALS:  ACLS (sim)  นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา"}, {"time": "13:00-17:00", "topic": "ALS:  ACLS (sim)", "instr": "นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา"}]}, {"month": "กันยายน", "week": "wk13", "date": 22, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บจากไฟไหม้น้ำร้อนลวก (Lecture)", "instr": "นพ.พรเลิศ"}]}, {"month": "กันยายน", "week": "wk13", "date": 23, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การดูแลผู้ป่วยที่ถูกทารุณกรรม (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion5", "instr": "นพ.รัฐพล"}]}, {"month": "กันยายน", "week": "wk13", "date": 24, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: Disaster workshop", "instr": "นพ.วีรศักดิ์/นพ.รัฐระวี/มานพ/สุดารัตน์/R3 ธนพล"}]}, {"month": "กันยายน", "week": "wk13", "date": 25, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุภาวะฉุกเฉินจากการได้รับการทารุณกรรม (Lecture)", "instr": "นพ.ไชยโย"}, {"time": "13:00-16:00", "topic": "M :  case discusion4", "instr": "นพ.พรเลิศ"}]}, {"month": "กันยายน", "week": "wk14", "date": 28, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1สุดารัตน์2.เบญจมาศ/R2 ไอลดา", "instr": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1สุดารัตน์2.เบญจมาศ/R2 ไอลดา"}, {"time": "13:00-17:00", "topic": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1.สุดารัตน์ 2.เบญจมาศ/R2 ไอลดา", "instr": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1.สุดารัตน์ 2.เบญจมาศ/R2 ไอลดา"}]}, {"month": "กันยายน", "week": "wk14", "date": 29, "day": "อังคาร", "sessions": [{"time": "10:00-11:00", "topic": "", "instr": null}, {"time": "13:00-16:00", "topic": "T: Trauma in special population (Lecture)", "instr": "พญ.ณญาวดี"}]}, {"month": "กันยายน", "week": "wk14", "date": 30, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: ผู้ป่วยที่ถูกล่วงละเมิดทางเพศ (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion6", "instr": "พญ.กฤษณา"}]}, {"month": "ตุลาคม", "week": "wk14", "date": 1, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: หลักการคัดแยก รักษา นำส่ง TTT ในสถานการณ์อุบัติเหตุหมู่", "instr": "นพ.รัฐพล"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: หลักการจัดการสถาณการณ์ HAZMAT", "instr": "นพ.รัฐระวี"}]}, {"month": "ตุลาคม", "week": "wk14", "date": 2, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: Topic presentation Rabies and Tetanus immunization", "instr": "นพ.กิตติชัย"}, {"time": "13:00-16:00", "topic": "M :  case discusion5", "instr": "นพ.ปุณยวัจน์"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 5, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/.นฉพ.นิรัติศัย/R3 ครุวัชร", "instr": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/.นฉพ.นิรัติศัย/R3 ครุวัชร"}, {"time": "13:00-17:00", "topic": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/นฉพ.นิรัติศัย/R3 ครุวัชร", "instr": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/นฉพ.นิรัติศัย/R3 ครุวัชร"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 6, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "Forensic", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 7, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "T: การป้องกันการบาดเจ็บและระบบการบันทึกทางการบาดเจ็บ (Lecture)", "instr": "พญ.ณญาวดี"}, {"time": "13:00-16:00", "topic": "T: Workshop Injury prevention", "instr": "พญ.ณญาวดี"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 8, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Marine EMS บาดเจ็บทางน้ำ 1 (Lecture)", "instr": "พญ.ณญาวดี"}, {"time": "15:00-17:00", "topic": "D: Aeromedical transportation (Lecture)", "instr": "นพ.ไชยโย"}]}, {"month": "ตุลาคม", "week": "wk15", "date": 9, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: ผู้มีภาวะฉุกเฉินจากการได้รับพิษ จากอาวุธเคมีสารชีวภาพวัตถุระเบิด (Lecture)", "instr": "นพ.รัฐระวี"}, {"time": "13:00-16:00", "topic": "M: Topic presentation Sepsis", "instr": "นพ.รัตติยา"}]}, {"month": "ตุลาคม", "week": "wk16", "date": 12, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: Topic and Case disscussion in ACLS", "instr": "พญ.รัตติยา/ชณัฎฎา"}, {"time": "13:00-17:00", "topic": "ALS: Topic PALS and Case disscussion in PALS", "instr": "พญ.ณญาวดี/นิรัติศัย"}]}, {"month": "ตุลาคม", "week": "wk16", "date": 13, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันนวมินทรมหาราช", "instr": null}]}, {"month": "ตุลาคม", "week": "wk16", "date": 14, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "M: Topic presentation  Snake bite", "instr": "ปิยฉัตร"}, {"time": "13:00-16:00", "topic": "EMC2 (Med)", "instr": null}]}, {"month": "ตุลาคม", "week": "wk16", "date": 15, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: Disaster risk management", "instr": "นพ.รัฐระวี"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: MCI for Bomb and blast", "instr": "นพ.รัฐระวี"}]}, {"month": "ตุลาคม", "week": "wk16", "date": 16, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ผู้มีภาวะฉุกเฉินในในผู้สูงอายุ, โรคเรื้อรัง (Lecture)", "instr": "นพ.พรเลิศ"}, {"time": "13:00-16:00", "topic": "M: Topic presentation ภาวะฉุกเฉินจากรังสี", "instr": "นพ.รัฐระวี/"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 19, "day": "จันทร์", "sessions": [{"time": "8:00-17:00", "topic": "ALS: Topic and Case disscussion in PHTLS", "instr": "นพ.วีรศักดิ์/พิมลภัทร"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 20, "day": "อังคาร", "sessions": []}, {"month": "ตุลาคม", "week": "wk17", "date": 21, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มีภาวะฉุกเฉินระยะสุดท้าย (Lecture)", "instr": "นพ.พรเลิศ"}, {"time": "13:00-16:00", "topic": "M :  case discusion6", "instr": "พญ.กฤษณา"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 22, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "**อจ ปิยฉัตร ขอนิสิต ผช 5 คน", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk17", "date": 23, "day": "ศุกร์", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันปิยมหาราช", "instr": null}]}, {"month": "ตุลาคม", "week": "wk18", "date": 26, "day": "จันทร์", "sessions": [{"time": "9:00-17:00", "topic": "ALS", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk18", "date": 27, "day": "อังคาร", "sessions": [{"time": "9:00-16:00", "topic": "EMC2 (Med)", "instr": "(อาจารย์)"}]}, {"month": "ตุลาคม", "week": "wk18", "date": 28, "day": "พุธ", "sessions": [{"time": null, "topic": "Final MCQ", "instr": null}]}, {"month": "ตุลาคม", "week": "wk18", "date": 29, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "Final MCQ", "instr": null}]}, {"month": "ตุลาคม", "week": "wk18", "date": 30, "day": "ศุกร์", "sessions": [{"time": null, "topic": "OSCE", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 2, "day": "จันทร์", "sessions": [{"time": null, "topic": "สอบซ่อม MCQ (final)", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 3, "day": "อังคาร", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 4, "day": "พุธ", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 5, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk19", "date": 6, "day": "ศุกร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 9, "day": "จันทร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 10, "day": "อังคาร", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 11, "day": "พุธ", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 12, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "อาจารย์สาขาและอาจารย์แหล่งฝึกประชุมเตรียมความพร้อมเปิดภาคเรียน 2/2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk20", "date": 13, "day": "ศุกร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk21", "date": 16, "day": "จันทร์", "sessions": [{"time": null, "topic": "เปิดภาคเรียนตามปฏิทินมหาวิทยาลัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk21", "date": 17, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk21", "date": 18, "day": "พุธ", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk21", "date": 19, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk21", "date": 20, "day": "ศุกร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk22", "date": 23, "day": "จันทร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk22", "date": 24, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk22", "date": 25, "day": "พุธ", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk22", "date": 26, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk22", "date": 27, "day": "ศุกร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "พฤศจิกายน", "week": "wk23", "date": 30, "day": "จันทร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]}, {"month": "ธันวาคม", "week": "wk23", "date": 1, "day": "อังคาร", "sessions": [{"time": null, "topic": "เปิดภาคการศึกษาตามหลักสูตรฉุกเฉินการแพทย์ (ภาคเรียน 2/2569)", "instr": null}]}];
+window.__SCHED__ = [
+  {"month": "กรกฎาคม", "week": "wk1", "date": 1, "day": "พุธ", "sessions": [{"time": null, "topic": "ปฐมนิเทศ ห้องประชุมสุจินต์", "instr": null}]},
+  {"month": "กรกฎาคม", "week": "wk1", "date": 2, "day": "พฤหัสบดี", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk1", "date": 3, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: EMS Operation", "instr": "นพ.วีรศักดิ์ (ห้องประชุม EOC)"}, {"time": "13:00-16:00", "topic": "M: Dispatch Operation", "instr": "นพ.วีรศักดิ์ (ห้องประชุม EOC)"}]},
+  {"month": "กรกฎาคม", "week": "wk1", "date": 4, "day": "เสาร์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk1", "date": 5, "day": "อาทิตย์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk2", "date": 6, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "M: Pre-Hospital Airway management (Lecture)", "instr": "นพ.ไชยโย (ห้องสุจินต์)"}, {"time": "13:00-17:00", "topic": "Pre-Hospital Airway management (Lab)", "instr": "นพ.ไชยโย/ไปรมาศ/นิรัติศัย/R2 พิชญานิน"}]},
+  {"month": "กรกฎาคม", "week": "wk2", "date": 7, "day": "อังคาร", "sessions": [{"time": "8:00-12:00", "topic": "D: Introduction to disaster/Disaster prevention and  preparedness (Lecture)", "instr": "นพ.รัฐระวี (omega one)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ แก่ผู้บาดเจ็บจากอุบัติเหตุการกระแทกการฉีกขาด (lecture)", "instr": "นพ.วีรศักดิ์ omega one"}]},
+  {"month": "กรกฎาคม", "week": "wk2", "date": 8, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: ความหมายของนิติเวชศาสตร์ (Lec)   F: บทบาทหน้าที่ของ นฉพ.ในงานนิติเวชศาสตร์ (Lec)", "instr": "นพ.ภูเบศ   (omega two)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บจากวัตถุหนักหักทับร่างกาย (Lecture)", "instr": "นพ.กิตติชัย  (omega two)"}]},
+  {"month": "กรกฎาคม", "week": "wk2", "date": 9, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Mass casualty incident 1-2 CSCA  (Lecture)", "instr": "นพ.วีรศักดิ์ omega one"}, {"time": "15:00-17:00", "topic": "D: Mass casualty incident Treatment Transport (Lecture)", "instr": "นพ.รัฐระวี (omega one)"}]},
+  {"month": "กรกฎาคม", "week": "wk2", "date": 10, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ แก่ผู้มีภาวะฉุกเฉินทางโรคติดต่อ,ติดเชื้ออุบัติใหม่ (Lecture)", "instr": "นพ.วีรศักดิ์  (omega one)"}, {"time": "13:00-16:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ ผู้มีภาวะฉุกเฉินจากการได้รับพิษจากสิ่งแวดล้อม (Lecture )", "instr": "นพ รัฐพล  (omega one)"}]},
+  {"month": "กรกฎาคม", "week": "wk2", "date": 11, "day": "เสาร์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk2", "date": 12, "day": "อาทิตย์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk3", "date": 13, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Adult (Lecture)", "instr": "พญ.พิมพ์ชนก (ประมุข)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Adult (Lab)", "instr": "พญ.พิมพ์ชนก/พงษ์พิสุทธิ์/อัญชนา/R2 ธนวรรณ"}]},
+  {"month": "กรกฎาคม", "week": "wk3", "date": 14, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Risk management", "instr": "นพ.ภูเบศ  (omega two)"}]},
+  {"month": "กรกฎาคม", "week": "wk3", "date": 15, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: หลักการชันสูตรพลิกศพ / การดูแลพยานหลักฐาน ณ จุดเกิดเหตุ (Lecture)", "instr": "นพ.ภูเบศ  (omega two)"}, {"time": "13:00-16:00", "topic": "T: ภาวะฉุกเฉินทางการแพทย์ จากการบาดเจ็บ กลไกการบาดเจ็บ Topic present.", "instr": "พญ ณญาวดี  (omega two)"}]},
+  {"month": "กรกฎาคม", "week": "wk3", "date": 16, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-14:00", "topic": "D: triage (Lecture)", "instr": "Paramedic มานพ (EOC,T1, สนง)"}, {"time": "14:00-17:00", "topic": "D: triage (Workshop)", "instr": "มานพ/ราเมศร์/เบญจมาศ/สุดารัตน์ (EOC,T1, สนง)"}]},
+  {"month": "กรกฎาคม", "week": "wk3", "date": 17, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: review AMLS (Lecture)", "instr": "นพ.ไชยโย  (omega two)"}, {"time": "13:00-16:00", "topic": "M: AMLS work shop", "instr": "นพ.ไชยโย/ สุดารัตน์/นนทิชานันท์/R3 พิมพ์ดาว (EOC,T1, สนง)"}]},
+  {"month": "กรกฎาคม", "week": "wk3", "date": 18, "day": "เสาร์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk3", "date": 19, "day": "อาทิตย์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk4", "date": 20, "day": "จันทร์", "sessions": [{"time": "8:00-17:00", "topic": "Advance Life Support", "instr": null}]},
+  {"month": "กรกฎาคม", "week": "wk4", "date": 21, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บที่ติดอยู่ในซากปรักหักพังหลุมลึกตึกถล่ม (Lecture)", "instr": "นพ.วีรศักดิ์  (omega two)"}]},
+  {"month": "กรกฎาคม", "week": "wk4", "date": 22, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การดูแลบาดแผล (Lecture)", "instr": "นพ.ภูเบศ  (omega one)"}, {"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บเลือดออกและช็อค topic present.", "instr": "พญ.ณญาวดี  (omega one)"}]},
+  {"month": "กรกฎาคม", "week": "wk4", "date": 23, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Tactical EMS (Lecture)", "instr": "นพ.วีรศักดิ์  (omega two)"}, {"time": "15:00-17:00", "topic": "D: Fast Tract in EMS", "instr": "นพ.วีรศักดิ์"}]},
+  {"month": "กรกฎาคม", "week": "wk4", "date": 24, "day": "ศุกร์", "sessions": [{"time": "13:00-16:00", "topic": "M: Topic presentation \n MI", "instr": "นพ.ภูเบศ  (omega two)"}]},
+  {"month": "กรกฎาคม", "week": "wk4", "date": 25, "day": "เสาร์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk4", "date": 26, "day": "อาทิตย์", "sessions": []},
+  {"month": "กรกฎาคม", "week": "wk5", "date": 27, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: PHTLS 1 (Lecture)", "instr": "นพ.กิตติชัย   (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: Workshop PHTLS 1", "instr": "นพ.กิตติชัย/พงษ์พิสุทธิ์/เบญจมาศ/R2 พอเพียง (ห้องสุจินต์)"}]},
+  {"month": "กรกฎาคม", "week": "wk5", "date": 28, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันเฉลิมพระชนมพรรษา ร.10", "instr": null}]},
+  {"month": "กรกฎาคม", "week": "wk5", "date": 29, "day": "พุธ", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ (วันอาสาฬหบูชา)", "instr": null}]},
+  {"month": "กรกฎาคม", "week": "wk5", "date": 30, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ (วันเข้าพรรษา)", "instr": null}]},
+  {"month": "กรกฎาคม", "week": "wk5", "date": 31, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ \nแก่ผู้มีภาวะฉุกเฉิน ผู้หมดสติ (Lecture)", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "13:00-16:00", "topic": "M: Topic presentation \n Stroke", "instr": "พญ.รัตติยา (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk5", "date": 1, "day": "เสาร์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk5", "date": 2, "day": "อาทิตย์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk6", "date": 3, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูง โดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Neonatal (Lecture)", "instr": "นพ.ไชยโย (omega two)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูง โดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Neonatal (Lab)", "instr": "นพ.ไชยโย/ไปรมาศ/นนทิชานันท์/R2 ธัญกมล"}]},
+  {"month": "สิงหาคม", "week": "wk6", "date": 4, "day": "อังคาร", "sessions": [{"time": "8:00-12:00", "topic": "D: MCI Scene design workshop (ห้องศูนย์การเรียนรู้)", "instr": "นพ.วีรศักดิ์/รัฐระวี/นฉพ.มานพ/นฉพ.ราเมศ/นิรัติศัย/R2 จิรเมธ"}, {"time": "13:00-16:00", "topic": "T: Topic presentation: Head and spinal trauma", "instr": "นพ.ปุณยวัจน์ (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk6", "date": 5, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การตัดสินการตาย (Lecture)", "instr": "นพ.ภูเบศ (omega two)"}, {"time": "13:00-16:00", "topic": "T: case discusion1", "instr": "นพ.ไชยโย (EOC)"}]},
+  {"month": "สิงหาคม", "week": "wk6", "date": 6, "day": "พฤหัสบดี", "sessions": [{"time": "8:00-12:00", "topic": "ALS: ใช้อุปกรณ์เปิดทางเดินหายใจขั้นสูง เครื่องช่วยหายใจแบบอัตโนมัติและแบบใช้มือ Pediatric (Lecture)", "instr": "พญ.ณญาวดี (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: ใช้อุปกรณ์เปิดทางเดินหายใจขั้นสูง เครื่องช่วยหายใจแบบอัตโนมัติและแบบใช้มือ Pediatric (Lab)", "instr": "พญ.ณญาวดี/ไปรมาศ/.นฉพ.อัญชนา/R"}]},
+  {"month": "สิงหาคม", "week": "wk6", "date": 7, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุ\nผู้มีภาวะฉุกเฉินทางตา  (Lecture)", "instr": "นพ.ไชยโย (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion1", "instr": "นพ.กิตติชัย (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk6", "date": 8, "day": "เสาร์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk6", "date": 9, "day": "อาทิตย์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk7", "date": 10, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: การดูแลและบำรุงรักษาอุปกรณ์ช่วยฟื้นคืนชีพขั้นสูงฝึกปฏิบัติการช่วยฟื้นคืน (Lecture)", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "13:00-17:00", "topic": "ALS: การดูแลและบำรุงรักษาอุปกรณ์ช่วยฟื้นคืนชีพขั้นสูงฝึกปฏิบัติการช่วยฟื้นคืน (Lab)", "instr": "นพ.วีรศักดิ์/.ชาติชาย../นิรัติศัย"}]},
+  {"month": "สิงหาคม", "week": "wk7", "date": 11, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "M: Safety Transfer (Lecture)", "instr": "พว.สมพร หงษ์เวียง  (EOC)"}]},
+  {"month": "สิงหาคม", "week": "wk7", "date": 12, "day": "พุธ", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันเฉลิมพระชนมพรรษา ร.10", "instr": null}]},
+  {"month": "สิงหาคม", "week": "wk7", "date": 13, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: ICS", "instr": "นพ.วีรศักดิ์ (omega two)"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: Command control in MIMMs protocol", "instr": "นพ.ภูเบศ (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk7", "date": 14, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มี\nภาวะฉุกเฉินทาง หู – คอ – จมูก (Lecture)", "instr": "นพ.รัฐพล (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion2", "instr": "พญ.รัตติยา (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk7", "date": 15, "day": "เสาร์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk7", "date": 16, "day": "อาทิตย์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk8", "date": 17, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Pediatric (Lecture)", "instr": "พญ.ณญาวดี (omega two)"}, {"time": "13:00-17:00", "topic": "ALS หลักการช่วยฟื้นคืนชีพขั้นสูงโดยใช้ยา สารน้ำและแบบแผน ณ จุดเกิดเหตุ Pediatric (Lab)", "instr": "พญ.ณญาวดี/ไปรมาศ/ชณัฎฎา/R3 พิมพ์ดาว"}]},
+  {"month": "สิงหาคม", "week": "wk8", "date": 18, "day": "อังคาร", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk8", "date": 19, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การวิเคราะห์สาเหตุการตาย (Lecture)", "instr": "นพ.ภูเบศ (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk8", "date": 20, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "Midterm MCQ ห้องสุจินต์", "instr": null}]},
+  {"month": "สิงหาคม", "week": "wk8", "date": 21, "day": "ศุกร์", "sessions": [{"time": null, "topic": "Midterm MCQ ห้องประมุข", "instr": null}]},
+  {"month": "สิงหาคม", "week": "wk8", "date": 22, "day": "เสาร์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk8", "date": 23, "day": "อาทิตย์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk9", "date": 24, "day": "จันทร์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk9", "date": 25, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Topic presentation:  thoracic injury", "instr": "พญ.พิมพ์ชนก (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk9", "date": 26, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การส่งศพและอุปกรณ์ที่ใช้ในงานนิติเวชศาสตร์ (Lecture)", "instr": "นพ.เศรษฐพงษ์ (omega two)"}, {"time": "13:00-16:00", "topic": "T: case discusion2", "instr": "นพ.ปุณยวัจน์ (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk9", "date": 27, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: HAZMAT  (Lecture)", "instr": "พญ.พิมพ์ชนก (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk9", "date": 28, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มีภาวะฉุกเฉินจากการได้รับสารพิษหรือยาเกินขนาด (Lecture)", "instr": "พญ.พิมพ์ชนก (omega two)"}, {"time": "13:00-16:00", "topic": "M: case discusion3", "instr": "นพ.ไชยโย (omega two)"}]},
+  {"month": "สิงหาคม", "week": "wk9", "date": 29, "day": "เสาร์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk9", "date": 30, "day": "อาทิตย์", "sessions": []},
+  {"month": "สิงหาคม", "week": "wk10", "date": 31, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: การกระตุ้นหัวใจด้วยไฟฟ้าแบบคาร์ดิโอเวอร์ชั่น+การใช้เครื่องคุมจังหวะการเต้นของหัวใจ Adult (Lecture)", "instr": "พญ.พิมพ์ชนก (ประมุข)"}, {"time": "13:00-17:00", "topic": "ALS: การกระตุ้นหัวใจด้วยไฟฟ้าแบบคาร์ดิโอเวอร์ชั่น+การใช้เครื่องคุมจังหวะการเต้นของหัวใจ Adult (Lab)", "instr": "พญ.ณญาวดี/นฉพ ชาติชาย/นฉพ.นนทิชานันท์/R2 ปุณิกา"}]},
+  {"month": "กันยายน", "week": "wk10", "date": 1, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: Topic presentation: abdominal injury", "instr": "นพ.ปุณยวัจน์"}]},
+  {"month": "กันยายน", "week": "wk10", "date": 2, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การเก็บวัตถุพยานเพื่อส่งตรวจ (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion3", "instr": "นพ.กิตติชัย"}]},
+  {"month": "กันยายน", "week": "wk10", "date": 3, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-14:00", "topic": "D: ERG  (Lecture)", "instr": "Paramedic มานพ"}, {"time": "14:00-16:00", "topic": "D: Workshop in ERG", "instr": "Paramedic /สุดารัตน์/มานพ"}]},
+  {"month": "กันยายน", "week": "wk10", "date": 4, "day": "ศุกร์", "sessions": [{"time": null, "topic": "สอบซ่อม MCQ", "instr": null}]},
+  {"month": "กันยายน", "week": "wk10", "date": 5, "day": "เสาร์", "sessions": []},
+  {"month": "กันยายน", "week": "wk10", "date": 6, "day": "อาทิตย์", "sessions": []},
+  {"month": "กันยายน", "week": "wk11", "date": 7, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "ALS: PHTLS 2 (Lecture)", "instr": "นพ.กิตติชัย"}, {"time": "13:00-17:00", "topic": "ALS: Workshop  PHTLS 2", "instr": "นพ.กิตติชัย/เบญจมาศ/สุดารัตน์/R3 ทิวา"}]},
+  {"month": "กันยายน", "week": "wk11", "date": 8, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บตกจากที่สูง topic present.", "instr": "นพ.กิตติชัย"}]},
+  {"month": "กันยายน", "week": "wk11", "date": 9, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: นิติเวชศาสตร์คลินิก (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion4", "instr": "พญ.ณญาวดี"}]},
+  {"month": "กันยายน", "week": "wk11", "date": 10, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: Mass gathering (Lecture)", "instr": "นพ.วีรศักดิ์"}]},
+  {"month": "กันยายน", "week": "wk11", "date": 11, "day": "ศุกร์", "sessions": [{"time": "8:00-17:00", "topic": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์", "instr": "ALS: (Sim) Tachy & bradycardia management Scenario พญ.กฤษณา/สุดารัตน์/จิดาภา/R2 วิชยุตม์"}]},
+  {"month": "กันยายน", "week": "wk11", "date": 12, "day": "เสาร์", "sessions": []},
+  {"month": "กันยายน", "week": "wk11", "date": 13, "day": "อาทิตย์", "sessions": []},
+  {"month": "กันยายน", "week": "wk12", "date": 14, "day": "จันทร์", "sessions": [{"time": "9:00-12:00", "topic": "\"T: USG workshop                \"", "instr": "อจ.ปิยฉัตร/นฉพ.นิรัตศัย../พงศ์พิสุทธิ์../R2 พอเพียง"}, {"time": "13:00-16:00", "topic": "T: concept of USG (lecture)", "instr": "อจ.ปิยฉัตร"}]},
+  {"month": "กันยายน", "week": "wk12", "date": 15, "day": "อังคาร", "sessions": []},
+  {"month": "กันยายน", "week": "wk12", "date": 16, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: หลักการเขียนรายงานผลการปฏิบัติงาน และการชันสูตร (Lecture)", "instr": "นพ.ภูเบศ"}]},
+  {"month": "กันยายน", "week": "wk12", "date": 17, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Disaster management 1 (Lecture)", "instr": "นพ.รัฐระวี"}, {"time": "15:00-17:00", "topic": "D: Disaster management 2 (Lecture)", "instr": "นพ.รัฐระวี"}]},
+  {"month": "กันยายน", "week": "wk12", "date": 18, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: ภาวะฉุกเฉินจากปัญหาทางพฤติกรรมและจิตเวชการเจรจาต่อรอง (Lecture)", "instr": "นพ.ไชยโย"}]},
+  {"month": "กันยายน", "week": "wk12", "date": 19, "day": "เสาร์", "sessions": []},
+  {"month": "กันยายน", "week": "wk12", "date": 20, "day": "อาทิตย์", "sessions": []},
+  {"month": "กันยายน", "week": "wk13", "date": 21, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS:  ACLS (sim)  นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา", "instr": "ALS:  ACLS (sim)  นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา"}, {"time": "13:00-17:00", "topic": "ALS:  ACLS (sim)", "instr": "นพ.ไชยโย/ไปรมาศ/สุดารัตน์/R3 ทิพย์สุดา"}]},
+  {"month": "กันยายน", "week": "wk13", "date": 22, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "T: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุแก่ผู้บาดเจ็บจากไฟไหม้น้ำร้อนลวก (Lecture)", "instr": "นพ.พรเลิศ"}]},
+  {"month": "กันยายน", "week": "wk13", "date": 23, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: การดูแลผู้ป่วยที่ถูกทารุณกรรม (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion5", "instr": "นพ.รัฐพล"}]},
+  {"month": "กันยายน", "week": "wk13", "date": 24, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "D: Disaster workshop", "instr": "นพ.วีรศักดิ์/นพ.รัฐระวี/มานพ/สุดารัตน์/R3 ธนพล"}]},
+  {"month": "กันยายน", "week": "wk13", "date": 25, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุภาวะฉุกเฉินจากการได้รับการทารุณกรรม (Lecture)", "instr": "นพ.ไชยโย"}, {"time": "13:00-16:00", "topic": "M :  case discusion4", "instr": "นพ.พรเลิศ"}]},
+  {"month": "กันยายน", "week": "wk13", "date": 26, "day": "เสาร์", "sessions": []},
+  {"month": "กันยายน", "week": "wk13", "date": 27, "day": "อาทิตย์", "sessions": []},
+  {"month": "กันยายน", "week": "wk14", "date": 28, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1สุดารัตน์2.เบญจมาศ/R2 ไอลดา", "instr": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1สุดารัตน์2.เบญจมาศ/R2 ไอลดา"}, {"time": "13:00-17:00", "topic": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1.สุดารัตน์ 2.เบญจมาศ/R2 ไอลดา", "instr": "ALS: (Sim) Trauma care Scenario  นพ.รัฐพล/1.สุดารัตน์ 2.เบญจมาศ/R2 ไอลดา"}]},
+  {"month": "กันยายน", "week": "wk14", "date": 29, "day": "อังคาร", "sessions": [{"time": "10:00-11:00", "topic": "", "instr": null}, {"time": "13:00-16:00", "topic": "T: Trauma in special population (Lecture)", "instr": "พญ.ณญาวดี"}]},
+  {"month": "กันยายน", "week": "wk14", "date": 30, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "F: ผู้ป่วยที่ถูกล่วงละเมิดทางเพศ (Lecture)", "instr": "นพ.ภูเบศ"}, {"time": "13:00-16:00", "topic": "T: case discusion6", "instr": "พญ.กฤษณา"}]},
+  {"month": "ตุลาคม", "week": "wk14", "date": 1, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: หลักการคัดแยก รักษา นำส่ง TTT ในสถานการณ์อุบัติเหตุหมู่", "instr": "นพ.รัฐพล"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: หลักการจัดการสถาณการณ์ HAZMAT", "instr": "นพ.รัฐระวี"}]},
+  {"month": "ตุลาคม", "week": "wk14", "date": 2, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: Topic presentation Rabies and Tetanus immunization", "instr": "นพ.กิตติชัย"}, {"time": "13:00-16:00", "topic": "M :  case discusion5", "instr": "นพ.ปุณยวัจน์"}]},
+  {"month": "ตุลาคม", "week": "wk14", "date": 3, "day": "เสาร์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk14", "date": 4, "day": "อาทิตย์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk15", "date": 5, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/.นฉพ.นิรัติศัย/R3 ครุวัชร", "instr": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/.นฉพ.นิรัติศัย/R3 ครุวัชร"}, {"time": "13:00-17:00", "topic": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/นฉพ.นิรัติศัย/R3 ครุวัชร", "instr": "ALS: (Sim) PALS Scenario พญ.ณญาวดี/ไปรมาศ/นฉพ.นิรัติศัย/R3 ครุวัชร"}]},
+  {"month": "ตุลาคม", "week": "wk15", "date": 6, "day": "อังคาร", "sessions": [{"time": "13:00-16:00", "topic": "Forensic", "instr": "(อาจารย์)"}]},
+  {"month": "ตุลาคม", "week": "wk15", "date": 7, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "T: การป้องกันการบาดเจ็บและระบบการบันทึกทางการบาดเจ็บ (Lecture)", "instr": "พญ.ณญาวดี"}, {"time": "13:00-16:00", "topic": "T: Workshop Injury prevention", "instr": "พญ.ณญาวดี"}]},
+  {"month": "ตุลาคม", "week": "wk15", "date": 8, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Marine EMS บาดเจ็บทางน้ำ 1 (Lecture)", "instr": "พญ.ณญาวดี"}, {"time": "15:00-17:00", "topic": "D: Aeromedical transportation (Lecture)", "instr": "นพ.ไชยโย"}]},
+  {"month": "ตุลาคม", "week": "wk15", "date": 9, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: ผู้มีภาวะฉุกเฉินจากการได้รับพิษ จากอาวุธเคมีสารชีวภาพวัตถุระเบิด (Lecture)", "instr": "นพ.รัฐระวี"}, {"time": "13:00-16:00", "topic": "M: Topic presentation Sepsis", "instr": "นพ.รัตติยา"}]},
+  {"month": "ตุลาคม", "week": "wk15", "date": 10, "day": "เสาร์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk15", "date": 11, "day": "อาทิตย์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk16", "date": 12, "day": "จันทร์", "sessions": [{"time": "8:00-12:00", "topic": "ALS: Topic and Case disscussion in ACLS", "instr": "พญ.รัตติยา/ชณัฎฎา"}, {"time": "13:00-17:00", "topic": "ALS: Topic PALS and Case disscussion in PALS", "instr": "พญ.ณญาวดี/นิรัติศัย"}]},
+  {"month": "ตุลาคม", "week": "wk16", "date": 13, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันนวมินทรมหาราช", "instr": null}]},
+  {"month": "ตุลาคม", "week": "wk16", "date": 14, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "M: Topic presentation  Snake bite", "instr": "ปิยฉัตร"}, {"time": "13:00-16:00", "topic": "EMC2 (Med)", "instr": null}]},
+  {"month": "ตุลาคม", "week": "wk16", "date": 15, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-15:00", "topic": "D: Topicpresentation: Disaster risk management", "instr": "นพ.รัฐระวี"}, {"time": "15:00-17:00", "topic": "D: Topicpresentation: MCI for Bomb and blast", "instr": "นพ.รัฐระวี"}]},
+  {"month": "ตุลาคม", "week": "wk16", "date": 16, "day": "ศุกร์", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ผู้มีภาวะฉุกเฉินในในผู้สูงอายุ, โรคเรื้อรัง (Lecture)", "instr": "นพ.พรเลิศ"}, {"time": "13:00-16:00", "topic": "M: Topic presentation ภาวะฉุกเฉินจากรังสี", "instr": "นพ.รัฐระวี/"}]},
+  {"month": "ตุลาคม", "week": "wk16", "date": 17, "day": "เสาร์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk16", "date": 18, "day": "อาทิตย์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk17", "date": 19, "day": "จันทร์", "sessions": [{"time": "8:00-17:00", "topic": "ALS: Topic and Case disscussion in PHTLS", "instr": "นพ.วีรศักดิ์/พิมลภัทร"}]},
+  {"month": "ตุลาคม", "week": "wk17", "date": 20, "day": "อังคาร", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk17", "date": 21, "day": "พุธ", "sessions": [{"time": "9:00-12:00", "topic": "M: การรักษาพยาบาลฉุกเฉิน ณ จุดเกิดเหตุผู้มีภาวะฉุกเฉินระยะสุดท้าย (Lecture)", "instr": "นพ.พรเลิศ"}, {"time": "13:00-16:00", "topic": "M :  case discusion6", "instr": "พญ.กฤษณา"}]},
+  {"month": "ตุลาคม", "week": "wk17", "date": 22, "day": "พฤหัสบดี", "sessions": [{"time": "13:00-17:00", "topic": "**อจ ปิยฉัตร ขอนิสิต ผช 5 คน", "instr": "(อาจารย์)"}]},
+  {"month": "ตุลาคม", "week": "wk17", "date": 23, "day": "ศุกร์", "sessions": [{"time": null, "topic": "วันหยุดนักขัตฤกษ์ วันปิยมหาราช", "instr": null}]},
+  {"month": "ตุลาคม", "week": "wk17", "date": 24, "day": "เสาร์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk17", "date": 25, "day": "อาทิตย์", "sessions": []},
+  {"month": "ตุลาคม", "week": "wk18", "date": 26, "day": "จันทร์", "sessions": [{"time": "9:00-17:00", "topic": "ALS", "instr": "(อาจารย์)"}]},
+  {"month": "ตุลาคม", "week": "wk18", "date": 27, "day": "อังคาร", "sessions": [{"time": "9:00-16:00", "topic": "EMC2 (Med)", "instr": "(อาจารย์)"}]},
+  {"month": "ตุลาคม", "week": "wk18", "date": 28, "day": "พุธ", "sessions": [{"time": null, "topic": "Final MCQ", "instr": null}]},
+  {"month": "ตุลาคม", "week": "wk18", "date": 29, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "Final MCQ", "instr": null}]},
+  {"month": "ตุลาคม", "week": "wk18", "date": 30, "day": "ศุกร์", "sessions": [{"time": null, "topic": "OSCE", "instr": null}]},
+  {"month": "ตุลาคม", "week": "wk18", "date": 31, "day": "เสาร์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk18", "date": 1, "day": "อาทิตย์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk19", "date": 2, "day": "จันทร์", "sessions": [{"time": null, "topic": "สอบซ่อม MCQ (final)", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk19", "date": 3, "day": "อังคาร", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk19", "date": 4, "day": "พุธ", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk19", "date": 5, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk19", "date": 6, "day": "ศุกร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk19", "date": 7, "day": "เสาร์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk19", "date": 8, "day": "อาทิตย์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk20", "date": 9, "day": "จันทร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk20", "date": 10, "day": "อังคาร", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk20", "date": 11, "day": "พุธ", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk20", "date": 12, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "อาจารย์สาขาและอาจารย์แหล่งฝึกประชุมเตรียมความพร้อมเปิดภาคเรียน 2/2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk20", "date": 13, "day": "ศุกร์", "sessions": [{"time": null, "topic": "ปิดภาคเรียนตามกำหนดของมหาวิทยาลัย วันที่ 2 - 15 พ.ย. 2569", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk20", "date": 14, "day": "เสาร์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk20", "date": 15, "day": "อาทิตย์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk21", "date": 16, "day": "จันทร์", "sessions": [{"time": null, "topic": "เปิดภาคเรียนตามปฏิทินมหาวิทยาลัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk21", "date": 17, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk21", "date": 18, "day": "พุธ", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk21", "date": 19, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk21", "date": 20, "day": "ศุกร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk21", "date": 21, "day": "เสาร์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk21", "date": 22, "day": "อาทิตย์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk22", "date": 23, "day": "จันทร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk22", "date": 24, "day": "อังคาร", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk22", "date": 25, "day": "พุธ", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk22", "date": 26, "day": "พฤหัสบดี", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk22", "date": 27, "day": "ศุกร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "พฤศจิกายน", "week": "wk22", "date": 28, "day": "เสาร์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk22", "date": 29, "day": "อาทิตย์", "sessions": []},
+  {"month": "พฤศจิกายน", "week": "wk23", "date": 30, "day": "จันทร์", "sessions": [{"time": null, "topic": "วันที่ 16-30 พ.ย. 2569 ช่วงเก็บข้อมูลวิจัย", "instr": null}]},
+  {"month": "ธันวาคม", "week": "wk23", "date": 1, "day": "อังคาร", "sessions": [{"time": null, "topic": "เปิดภาคการศึกษาตามหลักสูตรฉุกเฉินการแพทย์ (ภาคเรียน 2/2569)", "instr": null}]}
+];
 
 window.__DUTY__ = {
   "ก.ค.69": {
@@ -618,12 +686,11 @@ window.__DUTY__ = {
   const SCHED = window.__SCHED__;
   const DUTY = window.__DUTY__;
   
-  // อัพเดทวันที่อัตโนมัติตามเวลาระบบปัจจุบัน
   const now = new Date();
   const TODAY = {
-    y: now.getFullYear() + 543, // แปลงเป็น พ.ศ.
-    m: now.getMonth() + 1,      // เดือน (1-12)
-    d: now.getDate()            // วันที่ (1-31)
+    y: now.getFullYear() + 543,
+    m: now.getMonth() + 1,
+    d: now.getDate()
   };
   
   const MY_NAME = "นายธนพงษ์ เนตรพันธ์";
@@ -757,7 +824,7 @@ window.__DUTY__ = {
       if(d.sessions.length === 0){
         const p = document.createElement('div');
         p.className = 'empty-note';
-        p.textContent = 'ไม่มีกิจกรรมระบุ';
+        p.textContent = (d.day === 'เสาร์' || d.day === 'อาทิตย์') ? 'วันหยุดสุดสัปดาห์' : 'ไม่มีกิจกรรมระบุ';
         card.appendChild(p);
       } else if(isAllDayNote){
         const p = document.createElement('div');
